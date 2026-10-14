@@ -4,6 +4,11 @@
   --color-brand-primary: #0f172a;
   --color-brand-secondary: #1e293b;
   --color-brand-background: #334155;
+  --color-brand-white: #e8e8e84d;
+  --color-brand-gray: #f9fafb;
+  --color-brand-green: #1ec15f;
+  --color-brand-red: #d00000;
+  --color-brand-charcoal: #4f5665;
 }
 
 * {
