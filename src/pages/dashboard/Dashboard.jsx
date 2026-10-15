@@ -348,7 +348,7 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-10 gap-6 py-8 px-6 w-full">
         {/* Chart Section */}
         <div className="lg:col-span-7 chart p-4 rounded-2xl border border-gray-300 w-full">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex flex-col md:flex-row gap-2.5 justify-between items-center mb-4">
             <h2 className="font-jakarta text-lg font-semibold text-brand-secondary">
               Financial Chart
             </h2>
