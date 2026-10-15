@@ -52,7 +52,7 @@ function FindPeople() {
   };
 
   return (
-    <div className="mx-auto flex h-dvh w-full max-w-[390px] flex-col bg-white lg:h-auto lg:max-w-none">
+    <div className="mx-auto flex h-dvh w-full max-w-97.5 flex-col bg-white lg:h-auto lg:max-w-none">
       <header className="shrink-0 bg-brand-primary p-3 text-white lg:hidden">
         Transfer
       </header>
