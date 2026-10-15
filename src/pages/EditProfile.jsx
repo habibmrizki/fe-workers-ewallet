@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { LuMail, LuPhone, LuSquarePen, LuTrash2, LuUser } from "react-icons/lu";
 import ChangePinModal from "../modals/ChangePinModal";
+import ChangePasswordModal from "../modals/ChangePasswordModal";
 
 function EditProfile() {
   const [show, setShow] = useState(false);
+  const [changePassModal, setChangePassModal] = useState(false)
     const [previewAvatar, setPreviewAvatar] = useState(null)
     const HandleUpdateAvatar = (e) => {
         e.preventDefault()
@@ -110,7 +112,7 @@ function EditProfile() {
         </div>
         <div className="py-2">
           <p>Password</p>
-          <button className="text-blue-800 pt-2 cursor-pointer hover:text-blue-500">
+          <button onClick={()=> setChangePassModal(true)} className="text-blue-800 pt-2 cursor-pointer hover:text-blue-500">
             Change Password
           </button>
         </div>
@@ -127,6 +129,7 @@ function EditProfile() {
           Submit
         </button>
       </form>
+      <ChangePasswordModal isShowModal={changePassModal} setShowModal={setChangePassModal}/>
       <ChangePinModal isShowModal={show} setIsShowModal={setShow} />
     </div>
   );
