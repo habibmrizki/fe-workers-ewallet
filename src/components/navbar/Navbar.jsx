@@ -12,6 +12,7 @@ import {
   LuX,
 } from "react-icons/lu";
 import { BsWallet2 } from "react-icons/bs";
+import { useState } from "react";
 
 const MENU_ITEMS = [
   { to: "/dashboard", label: "Dashboard", Icon: LuLifeBuoy },
