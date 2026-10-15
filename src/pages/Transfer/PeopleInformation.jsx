@@ -87,105 +87,161 @@ function PeopleInformation({ selectedId = 1 }) {
     }
   };
   return (
-    <div className="relative mx-auto flex h-dvh w-full  max-w-[390px] flex-col">
-      <header className="bg-brand-primary p-3 text-white h-14 flex items-center">
+    <div className="relative mx-auto flex h-dvh w-full flex-col bg-white lg:h-auto lg:min-h-screen">
+      <header className="bg-brand-primary p-3 text-white h-14 flex items-center lg:hidden">
         Transfer
       </header>
 
-      <main className="overflow-y-auto bg-white p-4 flex-1 min-h-0">
-        <h3 className="mb-3 font-bold text-brand-secondary">
-          People Information
-        </h3>
+      <main className="min-h-0 flex-1 overflow-y-auto bg-white p-4 lg:overflow-visible lg:p-6">
+        {/*STEPPER DESKTOP */}
+        <div className="mb-6 hidden lg:block">
+          <div className="flex items-center gap-3">
+            <FiSend size={20} className="text-brand-primary" />
+            <h2 className="text-base font-semibold text-brand-secondary">
+              Transfer Money
+            </h2>
+          </div>
 
-        {contact && (
-          <div
-            key={contact.id}
-            className="flex items-center justify-between rounded-md px-3 py-3 bg-brand-primary/5"
-          >
-            <button
-              type="button"
-              className="flex flex-1 items-center gap-5 text-left"
+          <div className="mt-5 flex items-center gap-3 text-xs">
+            <div className="flex items-center gap-2">
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-500 text-white">
+                1
+              </span>
+              <span className="text-gray-500">Find People</span>
+            </div>
+
+            <div className="w-16 border-t border-dashed border-gray-300" />
+
+            <div className="flex items-center gap-2">
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-primary text-white">
+                2
+              </span>
+              <span className="text-brand-primary">Set Nominal</span>
+            </div>
+
+            <div className="w-16 border-t border-dashed border-gray-300" />
+
+            <div className="flex items-center gap-2">
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-500 text-white">
+                3
+              </span>
+              <span className="text-gray-500">Finish</span>
+            </div>
+          </div>
+        </div>
+
+        {/*CARD DESKTOP */}
+        <div className="lg:rounded-md lg:border lg:border-gray-200 lg:p-5">
+          <h3 className="mb-3 font-bold text-brand-secondary lg:text-sm">
+            People Information
+          </h3>
+
+          {contact && (
+            <div
+              key={contact.id}
+              className="flex items-center justify-between rounded-md px-3 py-3 bg-brand-primary/5 lg:px-4"
             >
-              <div className="flex h-17 w-17 shrink-0 items-center justify-center rounded-md bg-blue-100 text-sm font-semibold text-brand-primary">
-                {contact.name.charAt(0)}
-              </div>
-              <div className="flex flex-col gap-1">
-                <p className="text-sm font-medium text-brand-secondary">
-                  {contact.name}
-                </p>
-                <p className="text-xs text-gray-500">{contact.phone}</p>
-                <div className="bg-brand-primary rounded-xs text-brand-gray h-4 flex items-center p-1.5 gap-2 w-fit">
-                  <VscVerified size={13} />
-                  <span className="text-[10px] text-brand-gray">
-                    {contact.verificated}
-                  </span>
+              <button
+                type="button"
+                className="flex flex-1 items-center gap-5 text-left"
+              >
+                <div className="flex h-17 w-17 shrink-0 items-center justify-center rounded-md bg-blue-100 text-sm font-semibold text-brand-primary">
+                  {contact.name.charAt(0)}
                 </div>
-              </div>
-            </button>
+                <div className="flex flex-col gap-1">
+                  <p className="text-sm font-medium text-brand-secondary">
+                    {contact.name}
+                  </p>
+                  <p className="text-xs text-gray-500">{contact.phone}</p>
+                  <div className="bg-brand-primary rounded-lg text-brand-gray h-4 flex items-center p-1.5 gap-2 w-fit lg:p-4">
+                    <VscVerified size={14} />
+                    <span className="text-[10px] lg:text-[14px] text-brand-gray">
+                      {contact.verificated}
+                    </span>
+                  </div>
+                </div>
+              </button>
 
-            <button
-              type="button"
-              onClick={() => toggleFavorites(contact.id)}
-              className="cursor-pointer"
-            >
-              <FiStar
-                size={25}
-                className={
-                  favorites.includes(contact.id)
-                    ? "fill-yellow-400 text-yellow-400"
-                    : "text-gray-400"
-                }
+              <button
+                type="button"
+                onClick={() => toggleFavorites(contact.id)}
+                className="cursor-pointer"
+              >
+                <FiStar
+                  size={25}
+                  className={
+                    favorites.includes(contact.id)
+                      ? "fill-yellow-400 text-yellow-400"
+                      : "text-gray-400"
+                  }
+                />
+              </button>
+            </div>
+          )}
+
+          <div className="flex flex-col gap-3 mt-5">
+            <p className="font-bold text-brand-secondary lg:text-sm">Amount</p>
+            <p className="text-sm leading-relaxed text-gray-500 lg:text-xs">
+              Type the amount you want to transfer and then press continue to
+              the next steps.
+            </p>
+            <div className="flex h-11 items-center rounded-xl border border-gray-300 lg:rounded-md">
+              <CiMoneyCheck1
+                size={30}
+                className="ml-3 shrink-0 text-gray-500"
               />
-            </button>
-          </div>
-        )}
+              <span className="text-sm text-brand-secondary pl-2">Rp</span>
 
-        <div className="flex flex-col gap-3 mt-5">
-          <p className="font-bold text-brand-secondary">Amount</p>
-          <p className="text-md leading-relaxed text-gray-500">
-            Type the amount you want to transfer and then press continue to the
-            next steps.
-          </p>
-          <div className="flex h-11 items-center border border-gray-300 rounded-xl">
-            <CiMoneyCheck1 size={30} className="ml-3 shrink-0 text-gray-500" />
-            <span className="text-sm text-brand-secondary pl-2">Rp</span>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={amount.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                onChange={(e) => {
+                  const value = e.target.value
+                    .replace(/\D/g, "")
+                    .replace(/^0+(?=\d)/, "");
 
-            <input
-              type="text"
-              inputMode="numeric"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="Enter Nominal Transfer"
-              className="h-11 w-full p-3 outline-none placeholder:text-gray-400 "
-            />
+                  setAmount(value);
+                }}
+                placeholder="Enter Nominal Transfer"
+                className="h-11 w-full p-3 outline-none placeholder:text-gray-400 lg:text-sm
+                "
+              />
+            </div>
           </div>
+
+          <div className="flex flex-col gap-3 mt-3">
+            <p className="font-bold text-brand-secondary lg:text-sm">Notes</p>
+            <p className="text-sm leading-relaxed text-gray-500 lg:text-xs">
+              You can add some notes for this transfer such as payment coffee or
+              something.
+            </p>
+            <div>
+              <textarea
+                placeholder="Enter Some Notes"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                className="h-[170px] w-full resize-none rounded-xl border border-gray-300 p-3 outline-none placeholder:text-gray-400 lg:h-[140px]  lg:text-sm lg:rounded-md"
+              />
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              if (!amount || Number(amount) <= 0) {
+                alert("Masukkan nominal transfer terlebih dahulu");
+                return;
+              }
+              setModalPin(true);
+            }}
+            className="mt-4 h-11 w-full cursor-pointer rounded-xl bg-brand-primary text-white hover:opacity-90 lg:rounded-md"
+          >
+            Submit & Transfer
+          </button>
         </div>
-
-        <div className="flex flex-col gap-3 mt-3">
-          <p className="font-bold text-brand-secondary">Notes</p>
-          <p className="text-md leading-relaxed text-gray-500">
-            You can add some notes for this transfer such as payment coffee or
-            something.
-          </p>
-          <div>
-            <textarea
-              placeholder="Enter Some Notes"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              className="h-[170px] w-full p-3 outline-none placeholder:text-gray-400 border border-gray-300 rounded-xl"
-            />
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={() => setModalPin(true)}
-          className="bg-brand-primary w-full h-11 rounded-xl mt-4 cursor-pointer text-brand-gray hover:opacity-90"
-        >
-          Submit & Transfer
-        </button>
       </main>
 
-      <nav className="mt-auto grid grid-cols-5 border-t border-gray-100 bg-white px-2 py-3">
+      <nav className="mt-auto grid shrink-0 grid-cols-5 border-t border-gray-100 bg-white px-2 py-3 lg:hidden">
         {navigation.map(({ name, icon: Icon }) => (
           <div
             key={name}
@@ -199,6 +255,7 @@ function PeopleInformation({ selectedId = 1 }) {
         ))}
       </nav>
 
+      {/* Pin Modal */}
       {modalPin && (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
           <div className="flex w-full max-w-[350px] min-h-[500px] max-h-[calc(100dvh-32px)] flex-col overflow-y-auto rounded-xl bg-brand-gray p-5">
