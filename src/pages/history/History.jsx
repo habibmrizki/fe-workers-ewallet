@@ -89,15 +89,18 @@ function History() {
   };
 
   return (
-    <main className="">
-      <div className="hidden md:flex gap-5 ml-10 mt-10 cursor-pointer items-center">
-        <RiHistoryFill />
-        <p className="font-bold text-md">History Transaction</p>
+    <main className="md:flex flex-col gap-6 md:px-10 md:py-7">
+      <div className="hidden md:flex gap-3 cursor-pointer items-center">
+        <RiHistoryFill className="text-xl text-blue-600"/>
+        <p className="font-bold text-lg font-montserrat">History Transaction</p>
       </div>
-      <div className="md:border md:border-gray-300 md:mx-10 md:mt-10">
+      <header className="shrink-0 bg-brand-primary p-3 text-white lg:hidden">
+        History
+      </header>
+      <div className="p-6 md:p-0 md:border md:border-gray-200">
         {/* search */}
-        <section className="mx-5 md:mx-10 mt-5 md:flex md:justify-between items-center">
-          <p className="text-md md:text-xl font-semibold">Find Transaction</p>
+        <section className="md:mx-8 md:flex md:justify-between items-center">
+          <p className="text-lg md:text-base font-medium md:font-semibold font-montserrat">Find Transaction</p>
           <div
             id="search"
             className="flex pt-2 gap-3.5 max-md:flex max-md:flex-col md:w-80 lg:w-96"
@@ -106,7 +109,7 @@ function History() {
               <input
                 type="text"
                 placeholder="Enter Number Or Full Name"
-                className="min-w-0 flex-1 p-3 outline-none border-none bg-transparent"
+                className="min-w-0 flex-1 px-5 py-2 outline-none border-none bg-transparent placeholder:text-sm placeholder:text-gray-400"
               />
               <button type="button" className="p-3">
                 <CiSearch className="w-5 h-5" />
@@ -116,7 +119,7 @@ function History() {
         </section>
 
         {/* History user */}
-        <section className="mx-5 md:mx-10 mt-2">
+        <section className="md:mx-8 mt-2">
           {transactions.length > 0 ? (
             <table className="w-full border-separate border-spacing-y-3 md:border-spacing-y-4">
               <tbody>
@@ -140,7 +143,7 @@ function History() {
                       <td
                         className={`p-4 align-middle rounded-l md:rounded-none md:w-1/3 ${bg}`}
                       >
-                        <p className="text-sm font-medium md:text-base md:font-normal lg:text-xl">
+                        <p className="text-sm md:text-sm lg:text-base font-medium font-montserrat text-gray-600">
                           {data.contact_name}
                         </p>
                         <p className="mt-1 text-sm md:hidden">
@@ -150,7 +153,7 @@ function History() {
 
                       {/* Nomor */}
                       <td
-                        className={`hidden md:table-cell p-4 text-gray-600 lg:text-xl md:w-1/3 ${bg}`}
+                        className={`hidden md:table-cell p-4 text-gray-600 text-sm md:text-base md:w-1/3 ${bg}`}
                       >
                         {data.phone_number}
                       </td>
@@ -201,9 +204,9 @@ function History() {
         {/* Pagination */}
         <div className="mx-5 md:mx-10 my-10 flex flex-col items-center gap-4 lg:flex-row lg:justify-between">
           <div>
-            <p>{`Show ${ACTIVE_PAGE} History of ${TOTAL_PAGE} Page`}</p>
+            <p className="text-xs md:text-sm">{`Show ${ACTIVE_PAGE} History of ${TOTAL_PAGE} Page`}</p>
           </div>
-          <div className="pagination flex flex-wrap justify-center items-center gap-1 sm:gap-3 text-sm sm:text-base">
+          <div className="pagination flex flex-wrap justify-center items-center sm:gap-3 text-sm sm:text-base">
             <button
               type="button"
               className="px-2 py-1 text-gray-500 cursor-pointer transition-colors duration-200 hover:text-blue-600"
@@ -263,20 +266,20 @@ function History() {
             className="w-full max-w-100 rounded-xl bg-white p-6"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="mb-4 text-lg text-black">
-              Apakah Anda yakin ingin menghapus histori ini?
+            <h2 className="mb-4 text-sm md:text-base text-black">
+              Anda yakin ingin menghapus Histori Transaksi ini?
             </h2>
-            <div className="flex justify-end gap-4">
+            <div className="flex justify-end gap-2">
               <button
                 type="button"
-                className="cursor-pointer rounded bg-gray-400 px-4 py-2 text-white transition-colors duration-200 hover:bg-gray-500"
+                className="cursor-pointer rounded bg-gray-400 px-6 py-2 text-white text-sm transition-colors duration-200 hover:bg-gray-500"
                 onClick={handleCancelDelete}
               >
                 Batal
               </button>
               <button
                 type="button"
-                className="cursor-pointer rounded bg-red-600 px-4 py-2 text-white transition-colors duration-200 hover:bg-red-700"
+                className="cursor-pointer rounded bg-red-600 px-6 py-2 text-white text-sm transition-colors duration-200 hover:bg-red-700"
                 onClick={handleConfirmDelete}
               >
                 Hapus

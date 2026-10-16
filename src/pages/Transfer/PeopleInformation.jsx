@@ -7,7 +7,6 @@ import {
   FiUser,
   FiStar,
   FiX,
-  FiX,
 } from "react-icons/fi";
 import { VscVerified } from "react-icons/vsc";
 import { CiMoneyCheck1 } from "react-icons/ci";
@@ -82,7 +81,6 @@ function PeopleInformation({
   onSendAgain,
   onBackDashboard,
 }) {
-function PeopleInformation({ selectedId }) {
   const [favorites, setFavorites] = useState([]);
   const [modalPin, setModalPin] = useState(false);
   const [pin, setPin] = useState("");
@@ -96,6 +94,7 @@ function PeopleInformation({ selectedId }) {
       setFavorites([...favorites, id]);
     }
   };
+
   return (
     <div className="relative mx-auto flex h-dvh w-full flex-col bg-white lg:h-auto lg:min-h-screen">
       <header className="bg-brand-primary p-3 text-white h-14 flex items-center lg:hidden">
@@ -214,8 +213,7 @@ function PeopleInformation({ selectedId }) {
                   setAmount(value);
                 }}
                 placeholder="Enter Nominal Transfer"
-                className="h-11 w-full p-3 outline-none placeholder:text-gray-400 lg:text-sm
-                "
+                className="h-11 w-full p-3 outline-none placeholder:text-gray-400 lg:text-sm"
               />
             </div>
           </div>
@@ -231,11 +229,11 @@ function PeopleInformation({ selectedId }) {
                 placeholder="Enter Some Notes"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="h-42.5 w-full resize-none rounded-xl border border-gray-300 p-3 outline-none placeholder:text-gray-400 lg:h-35  lg:text-sm lg:rounded-md"
-                className="h-42.5 w-full resize-none rounded-xl border border-gray-300 p-3 outline-none placeholder:text-gray-400 lg:h-[140px]  lg:text-sm lg:rounded-md"
+                className="h-42.5 w-full resize-none rounded-xl border border-gray-300 p-3 outline-none placeholder:text-gray-400 lg:h-35 lg:text-sm lg:rounded-md"
               />
             </div>
           </div>
+
           <button
             type="button"
             onClick={() => {
@@ -269,22 +267,6 @@ function PeopleInformation({ selectedId }) {
       {/* Pin Modal */}
       {modalPin && (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-          <div className="flex w-full max-w-87.5 min-h-125 max-h-[calc(100dvh-32px)] flex-col overflow-y-auto rounded-xl bg-brand-gray p-5">
-            <div className="flex items-center justify-between">
-              <p className="text-sm font-medium text-brand-secondary">
-                TRANSFER TO {contact?.name.toUpperCase()}
-              </p>
-              <button
-                type="button"
-                onClick={() => {
-                  setModalPin(false);
-                  setPin("");
-                }}
-                className="cursor-pointer text-gray-500 hover:text-red-500"
-              >
-                <FiX size={24} />
-              </button>
-            </div>
           <div className="flex w-full max-w-87.5 min-h-125 max-h-[calc(100dvh-32px)] flex-col overflow-y-auto rounded-xl bg-brand-gray p-5">
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium text-brand-secondary">

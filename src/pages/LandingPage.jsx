@@ -1,3 +1,5 @@
+import { FaApple } from "react-icons/fa";
+
 function LandingPage() {
   return (
     <main>
@@ -19,8 +21,8 @@ function LandingPage() {
                 <p className="text-brand-primary font-semibold">Play Store</p>
               </button>
               <button className="flex items-center justify-center gap-3 border border-white w-full py-4 rounded-xl cursor-pointer">
-                <img src="/appstore.svg" alt="App Store" />
-                <p className="text-white font-semibold">App Store</p>
+                <img src="/appstore.svg"  alt="App Store" />
+                <p className="font-semibold text-white">App Store</p>
               </button>
             </div>
             <div>
@@ -88,7 +90,7 @@ function LandingPage() {
             className="w-13 h-13 bg-brand-primary p-3 rounded-[50%]"
           />
           <div className="text-center lg:text-left">
-            <h1 className="font-bold text-lg text-brand-primary p-3">
+            <h1 className="font-bold text-lg text-brand-primary">
               Easy Download
             </h1>
             <p className="text-brand-charcoal">
@@ -253,13 +255,14 @@ function LandingPage() {
               Ready to experience the future of payments? Download e-wallet now
               and enjoy a world of convenience at your fingertips.
             </p>
-            <div className="flex gap-5 justify-center lg:flex-row">
-              <button className="flex justify-center gap-5 bg-brand-primary w-full p-5 rounded-xl cursor-pointer">
+            <div className="flex gap-5 justify-start lg:flex-row">
+              <button className="flex justify-center gap-5 bg-brand-primary w-80 p-5 rounded-xl cursor-pointer">
                 <img src="/gplay.svg" alt="" />
                 <p className="text-white">Play store</p>
               </button>
-              <button className="flex justify-center  gap-5 border border-white p-5 w-full rounded-xl cursor-pointer">
-                <img src="/appstore.svg" alt="" />
+              <button className="flex justify-center items-center gap-5 border border-white p-5 w-80 rounded-xl cursor-pointer">
+                {/* <img src="/appstore.svg" alt="" /> */}
+                <FaApple className="text-white text-lg"/>
                 <p className="text-white">Apps Store</p>
               </button>
             </div>

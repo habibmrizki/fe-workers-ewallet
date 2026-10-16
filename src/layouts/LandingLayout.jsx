@@ -10,7 +10,7 @@ const LandingLayout = () => {
   return (
     <>
       <Navbar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-      <main className="min-h-screen flex" onClick={() => setIsMenuOpen(false)}>
+      <main className="min-h-screen" onClick={() => setIsMenuOpen(false)}>
         <Outlet />
       </main>
       <Footer />

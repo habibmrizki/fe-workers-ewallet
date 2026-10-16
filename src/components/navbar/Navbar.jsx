@@ -12,7 +12,6 @@ import {
   LuX,
 } from "react-icons/lu";
 import { BsWallet2 } from "react-icons/bs";
-import { useState } from "react";
 
 const MENU_ITEMS = [
   { to: "/dashboard", label: "Dashboard", Icon: LuLifeBuoy },
@@ -22,9 +21,7 @@ const MENU_ITEMS = [
   { to: "/profile", label: "Profile", Icon: LuUser },
 ];
 
-const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
   const isLoggedIn = true;
   const userPhoto = "";
 
@@ -39,10 +36,10 @@ const Navbar = () => {
     "flex w-full items-center p-2 gap-5 cursor-pointer rounded-lg text-brand-red transition-colors duration-300 ease-in-out hover:bg-brand-red hover:text-white";
 
   return (
-    <header className="relative bg-brand-primary text-white">
-      <nav className="flex items-center justify-between px-5 py-5 lg:px-12">
+    <header className="relative z-30 bg-brand-primary text-white shrink-0">
+      <nav className="flex items-center justify-between px-5 py-4 lg:px-12">
         <div className="flex flex-row items-center gap-3">
-          <BsWallet2 className="text-white" />
+          <BsWallet2 className="text-white text-2xl" />
           <Link to="/" className="font-jakarta text-2xl font-semibold">
             E-Wallet
           </Link>
@@ -51,13 +48,13 @@ const Navbar = () => {
         {!isLoggedIn && (
           <div className="hidden gap-5 justify-between lg:flex">
             <Link
-              className="p-3 border font-semibold rounded-lg cursor-pointer border-white transition-all duration-300 ease-in-out hover:bg-white hover:text-brand-primary"
+              className="w-25 h-10 border font-semibold rounded-lg cursor-pointer border-white transition-all duration-300 ease-in-out text-center flex items-center justify-center hover:bg-white hover:text-brand-primary"
               to="/auth"
             >
               Sign In
             </Link>
             <Link
-              className="p-3 border font-semibold rounded-lg cursor-pointer border-white bg-white text-brand-primary transition-all duration-300 ease-in-out hover:bg-brand-primary hover:text-white"
+              className="w-25 h-10 border font-semibold rounded-lg cursor-pointer border-white bg-white text-brand-primary transition-all duration-300 ease-in-out flex items-center justify-center hover:bg-brand-primary hover:text-white"
               to="/auth/register"
             >
               Sign Up
@@ -94,7 +91,7 @@ const Navbar = () => {
           </button>
         )}
 
-        {/* Tombol hamburger*/}
+        {/* Tombol hamburger */}
         <button
           type="button"
           onClick={toggleMenu}
@@ -119,15 +116,16 @@ const Navbar = () => {
 
       {isMenuOpen && <div className="fixed inset-0 z-40" onClick={closeMenu} />}
 
+      {/* Dropdown Menu Desktop */}
       {isLoggedIn && (
         <div
-          className={`absolute z-50 right-12 top-20 hidden w-48 rounded-xl border border-gray-300 bg-white p-3 shadow-2xl origin-top-right transition-all duration-300 ease-in-out lg:block ${
+          className={`absolute z-50 right-12 top-16 hidden w-48 rounded-xl border border-gray-300 bg-white p-3 shadow-2xl origin-top-right transition-all duration-300 ease-in-out lg:block ${
             isMenuOpen
               ? "visible opacity-100 translate-y-0 scale-100"
               : "invisible opacity-0 -translate-y-2 scale-95"
           }`}
         >
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1">
             <NavLink
               to="/dashboard"
               onClick={closeMenu}
@@ -135,21 +133,23 @@ const Navbar = () => {
                 isActive ? `${baseClass} ${activeClass}` : baseClass
               }
             >
-              <LuUser size={24} />
+              <LuUser className="text-xl" />
               <h3 className="font-light">Dashboard</h3>
             </NavLink>
 
             <div className="my-1 border-t border-gray-200" />
 
             <button type="button" onClick={closeMenu} className={logoutClass}>
-              <LuLogOut size={24} className="rotate-180" />
+              <LuLogOut className="text-xl rotate-180" />
               <h3>Keluar</h3>
             </button>
           </div>
         </div>
       )}
+
+      {/* Dropdown Menu Mobile */}
       <div
-        className={`absolute z-50 right-5 top-20 w-60 max-h-[80vh] overflow-y-auto rounded-xl border border-gray-300 bg-white p-4 shadow-2xl origin-top-right transition-all duration-300 ease-in-out lg:hidden ${
+        className={`absolute z-50 right-5 top-16 w-60 max-h-[80vh] overflow-y-auto rounded-xl border border-gray-300 bg-white p-4 shadow-2xl origin-top-right transition-all duration-300 ease-in-out lg:hidden ${
           isMenuOpen
             ? "visible opacity-100 translate-y-0 scale-100"
             : "invisible opacity-0 -translate-y-2 scale-95"

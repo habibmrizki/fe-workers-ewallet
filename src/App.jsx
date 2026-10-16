@@ -3,7 +3,7 @@ import MainLayout from "./layouts/MainLayout";
 import LandingLayout from "./layouts/LandingLayout";
 import LandingPage from "./pages/LandingPage";
 import Dashbord from  "./pages/dashboard/Dashboard"
-import FindPeople from "./pages/Transfer/FIndPeople";
+import FindPeople from "./pages/Transfer/TransferPage";
 import PeopleInformation from "./pages/Transfer/PeopleInformation";
 import History from "./pages/history/History"
 import TopUp from "./pages/topup/Topup";

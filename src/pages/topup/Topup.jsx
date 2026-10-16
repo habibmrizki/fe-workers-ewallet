@@ -21,15 +21,17 @@ function Topup() {
   const subTotal = amount + tax;
 
   return (
-    <>
-      <div className="hidden md:flex items-center gap-3 ml-14 mt-10">
-        <BsBoxArrowUp />
-        <p className="text-xl font-semibold">Top Up Account</p>
+    <main className="md:flex flex-col gap-6 md:px-10 md:py-7">
+      <div className="hidden md:flex items-center gap-3">
+        <BsBoxArrowUp className="text-xl text-blue-600"/>
+        <p className="text-lg font-bold font-montserrat">Top Up Account</p>
       </div>
-
-      <div className="lg:flex gap-10">
-        <section className=" lg:mb-13 md:grow px-7 mt-8 md:border md:border-gray-300 md:p-10 md:mx-10 lg:ml-14 lg:mx-0">
-          <h1 className="text-lg mb-5 lg:font-semibold">Account Information</h1>
+      <header className="shrink-0 bg-brand-primary p-3 text-white lg:hidden">
+        Top-Up
+      </header>
+      <div className="lg:flex gap-6">
+        <section className="p-6 md:grow md:px-7 md:border md:border-gray-200">
+          <h2 className="text-lg md:text-base mb-5 font-medium lg:font-semibold font-montserrat">Account Information</h2>
           <article className="bg-gray-100 rounded-lg p-4 md:p-6 flex items-center justify-between">
             <div className="flex items-center gap-5">
               <img
@@ -53,7 +55,7 @@ function Topup() {
           </article>
 
           <article className="mt-5 flex flex-col gap-3">
-            <h1 className="text-lg lg:font-semibold">Amount</h1>
+            <h1 className="text-lg font-medium lg:font-semibold">Amount</h1>
             <p className="text-gray-500">
               Type the amount you want to transfer and then press continue to
               the next steps.
@@ -74,7 +76,7 @@ function Topup() {
           </article>
 
           <article className="mt-5">
-            <h1 className="text-lg mb-2">Payment Method</h1>
+            <h1 className="text-lg font-medium mb-2">Payment Method</h1>
             <p className="text-gray-500">
               Choose your payment method for top up account
             </p>
@@ -82,7 +84,7 @@ function Topup() {
               {paymentMethods.map((data) => (
                 <label
                   key={data.id}
-                  className="flex items-center gap-3 p-4 border rounded-xl bg-white cursor-pointer has-checked:border-blue-500 has-checked:bg-blue-50"
+                  className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 cursor-pointer has-checked:border-blue-500 has-checked:bg-blue-50"
                 >
                   <input
                     type="radio"
@@ -102,28 +104,28 @@ function Topup() {
           </article>
         </section>
 
-        <section className="my-8 mx-5 md:border md:h-fit md:border-gray-300 md:p-7 lg:mr-14 md:mx-10 lg:mx-0">
-          <h1 className="text-lg pb-5 md:font-semibold lg:text-2xl">Payment</h1>
+        <section className="p-6 md:grow md:border md:h-fit md:border-gray-200">
+          <h1 className="text-lg pb-5 font-medium md:font-semibold lg:text-lg">Payment</h1>
 
-          <div className="mx-4 flex flex-col gap-3">
+          <div className="flex flex-col gap-3">
             <div className="flex justify-between text-lg">
-              <p className="lg:font-medium">Order</p>
-              <p className="font-semibold">
+              <p className="text-base text-gray-500 font-medium">Order</p>
+              <p className="font-semibold text-base">
                 {formatAmountField(amount) || "Rp 0"}
               </p>
             </div>
             <div className="flex justify-between text-lg">
-              <p className="lg:font-medium">Delivery</p>
-              <p className="font-semibold">Rp 0</p>
+              <p className="text-base text-gray-500 font-medium">Delivery</p>
+              <p className="font-semibold text-base">Rp 0</p>
             </div>
             <div className="flex justify-between text-lg">
-              <p className="lg:font-medium">Tax</p>
-              <p className="font-semibold">{formatAmountField(tax)}</p>
+              <p className="text-base text-gray-500 font-medium">Tax</p>
+              <p className="font-semibold text-base">{formatAmountField(tax)}</p>
             </div>
-            <hr className="border-t border-gray-400 my-4" />
+            <hr className="border-t border-gray-300 my-4" />
             <div className="flex justify-between text-lg">
-              <p className="lg:font-medium">Sub Total</p>
-              <p className="font-semibold">{formatAmountField(subTotal)}</p>
+              <p className="text-base text-gray-500 font-medium">Sub Total</p>
+              <p className="font-semibold text-base">{formatAmountField(subTotal)}</p>
             </div>
             <button
               type="button"
@@ -133,7 +135,7 @@ function Topup() {
             >
               Submit
             </button>
-            <p className="text-gray-500 text-lg ">
+            <p className="text-gray-500 text-base">
               *Get Discount if you pay with Bank Central Asia
             </p>
           </div>
@@ -147,7 +149,7 @@ function Topup() {
           method={method}
         />
       )}
-    </>
+    </main>
   );
 }
 
