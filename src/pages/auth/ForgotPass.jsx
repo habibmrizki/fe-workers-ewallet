@@ -15,7 +15,7 @@ function ForgotPass() {
                     <h1 className="text-blue-600 text-[20px] md:text-base font-medium">E-Wallet</h1>
                 </div>
                 <h2 className="text-[18px] md:text-2xl font-medium">Fill Out Form Correctly 👋</h2>
-                <p className="text-[#4F5665] font-montserrat text-xs md:text-sm">We will send new password to your email.</p>
+                <p className="text-brand-charcoal font-montserrat text-xs md:text-sm">We will send new password to your email.</p>
                 <div className="grid gap-2">
                     <label htmlFor="email" className="font-medium">Email</label>
                     <div className="relative">

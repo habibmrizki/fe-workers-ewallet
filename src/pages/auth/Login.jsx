@@ -39,11 +39,11 @@ function Login() {
                 <h2 className="text-[18px] md:text-2xl font-medium text-gray-300">Hello Welcome Back 👋</h2>
                 <p className="text-gray-400 font-montserrat text-xs md:text-sm">Fill out the form correctly or you can login with several option.</p>
                 <div className="w-full flex md:grid gap-3 mt-1">
-                    <div className="w-full h-12 flex-1 flex gap-3 items-center justify-center border rounded-full text-xl cursor-pointer bg-gray-300 hover:bg-gray-200">
+                    <div className="w-full h-12 flex-1 flex gap-3 items-center justify-center border rounded-full text-xl cursor-pointer bg-gray-50 hover:bg-gray-200">
                         <FcGoogle/> 
                         <span className="hidden md:flex font-montserrat text-sm font-medium">Google</span>
                     </div>
-                    <div className="w-full h-12 flex-1 flex gap-3 items-center justify-center border border-gray-300 rounded-full text-xl cursor-pointer bg-gray-300 hover:bg-gray-200">
+                    <div className="w-full h-12 flex-1 flex gap-3 items-center justify-center border border-gray-300 rounded-full text-xl cursor-pointer bg-gray-50 hover:bg-gray-200">
                         <FaFacebook className="text-blue-700"/> 
                         <span className="hidden md:flex font-montserrat text-sm font-medium">Facebook</span>
                     </div>
@@ -64,7 +64,7 @@ function Login() {
                             id="email" 
                             name="email"
                             type="text" 
-                            className="w-full h-12 border rounded-lg bg-gray-300 pl-10 pr-4 placeholder:text-sm placeholder:text-gray-400 focus:outline-blue-500" 
+                            className="w-full h-12 border rounded-lg bg-gray-50 pl-10 pr-4 placeholder:text-sm placeholder:text-gray-400 focus:outline-blue-500" 
                             placeholder="Enter Your Email" 
                             {...register("email", {
                                 required: "Email wajib diisi",
@@ -88,7 +88,7 @@ function Login() {
                             type={showPassword ? "text" : "password"} 
                             id="password" 
                             name="password" 
-                            className="w-full h-12 border rounded-lg bg-gray-300 pl-10 pr-10 placeholder:text-sm placeholder:text-gray-400 focus:outline-blue-500" 
+                            className="w-full h-12 border rounded-lg bg-gray-50 pl-10 pr-10 placeholder:text-sm placeholder:text-gray-400 focus:outline-blue-500" 
                             placeholder="Enter Your Password"
                             {...register("password", {
                                 required: "Password is required",

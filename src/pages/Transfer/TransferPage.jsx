@@ -1,5 +1,5 @@
 import { useState } from "react";
-import FindPeople from "./FIndPeople";
+import FindPeople from "./FindPeople";
 import PeopleInformation from "./PeopleInformation";
 import TransferSummary from "./TransferSummary";
 

@@ -55,11 +55,11 @@ function Register() {
                     Transfering money is eassier than ever, you can access Zwallet wherever you are. Desktop, laptop, mobile phone? we cover all of that for you!
                 </p>
                 <div className="w-full flex md:grid gap-3 mt-1">
-                    <div className="w-full h-12 flex-1 flex gap-3 items-center justify-center border rounded-full text-xl cursor-pointer bg-gray-200 hover:bg-gray-300">
+                    <div className="w-full h-12 flex-1 flex gap-3 items-center justify-center border rounded-full text-xl cursor-pointer bg-gray-50 hover:bg-gray-100">
                         <FcGoogle/> 
                         <span className="hidden md:flex font-montserrat text-sm font-medium">Google</span>
                     </div>
-                    <div className="w-full h-12 flex-1 flex gap-3 items-center justify-center border rounded-full text-xl cursor-pointer bg-gray-200 hover:bg-gray-300">
+                    <div className="w-full h-12 flex-1 flex gap-3 items-center justify-center border rounded-full text-xl cursor-pointer bg-gray-50 hover:bg-gray-100">
                         <FaFacebook className="text-blue-700"/> 
                         <span className="hidden md:flex font-montserrat text-sm font-medium">Facebook</span>
                     </div>
@@ -80,7 +80,7 @@ function Register() {
                             type="text" 
                             id="email" 
                             name="email" 
-                            className="w-full h-11 border rounded-lg bg-gray-300 pl-10 pr-4 text-sm placeholder:text-sm placeholder:text-gray-400 focus:outline-blue-500" 
+                            className="w-full h-11 border rounded-lg bg-gray-50 pl-10 pr-4 text-sm placeholder:text-sm placeholder:text-gray-400 focus:outline-blue-500" 
                             placeholder="Enter Your Email"
                             {...register('email', {
                                 required: 'Email is required',
@@ -97,7 +97,7 @@ function Register() {
                             type={showPassword ? "text" : "password"} 
                             id="password" 
                             name="password" 
-                            className="w-full h-11 border rounded-lg bg-gray-300 pl-10 pr-10 text-sm placeholder:text-sm placeholder:text-gray-400 focus:outline-blue-500" 
+                            className="w-full h-11 border rounded-lg bg-gray-50 pl-10 pr-10 text-sm placeholder:text-sm placeholder:text-gray-400 focus:outline-blue-500" 
                             placeholder="Enter Your Password" 
                             {...register('password', {
                                 required: 'Password is required',
@@ -121,7 +121,7 @@ function Register() {
                             type={showConfPassword ? "text" : "password"} 
                             id="confPassword" 
                             name="confPass" 
-                            className="w-full h-11 border rounded-lg bg-gray-300 pl-10 pr-10 text-sm placeholder:text-sm placeholder:text-gray-400 focus:outline-blue-500" 
+                            className="w-full h-11 border rounded-lg bg-gray-50 pl-10 pr-10 text-sm placeholder:text-sm placeholder:text-gray-400 focus:outline-blue-500" 
                             placeholder="Enter Your Password Again" 
                             {...register('confPass', {
                                 required: 'Please confirm your password',

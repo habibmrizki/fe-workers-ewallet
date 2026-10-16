@@ -1,4 +1,5 @@
 import { FiSend, FiCheckCircle, FiRepeat, FiHome } from "react-icons/fi";
+import { Link } from "react-router";
 
 const contacts = [
   { id: 1, name: "Ghaluh 1", phone: "0815-555-0108" },
@@ -37,7 +38,7 @@ function TransferSummary({
 
   return (
     <div className="relative mx-auto flex h-dvh w-full flex-col bg-white lg:h-auto lg:min-h-screen">
-      <header className="flex h-14 items-center bg-brand-primary p-3 text-white lg:hidden">
+      <header className="flex h-14 items-center bg-brand-primary text-white lg:hidden">
         Transfer
       </header>
 
@@ -90,7 +91,7 @@ function TransferSummary({
               Your transfer has been completed successfully
             </p>
 
-            <p className="mt-5 text-sm text-gray-500">Amount</p>
+            <p className="mt-5 text-sm font-medium text-gray-500">Amount</p>
             <p className="mt-2 max-w-full wrap-break-word text-center text-2xl font-bold text-brand-secondary sm:text-3xl">
               {formattedAmount}
             </p>
@@ -154,7 +155,9 @@ function TransferSummary({
               className="flex h-11 w-full items-center justify-center gap-2 rounded-md bg-brand-primary text-sm text-white hover:opacity-90"
             >
               <FiRepeat size={16} />
-              Send Again
+              <Link to="/transfer">
+                Send Again
+              </Link>
             </button>
 
             <button
@@ -163,7 +166,9 @@ function TransferSummary({
               className="flex h-11 w-full items-center justify-center gap-2 rounded-md border border-brand-primary bg-white text-sm text-brand-primary hover:bg-brand-primary/5"
             >
               <FiHome size={16} />
-              Back To Dashboard
+              <Link to="/dashboard">
+                Back To Dashboard
+              </Link>
             </button>
           </div>
         </div>

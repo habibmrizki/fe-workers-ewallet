@@ -55,19 +55,19 @@ function ModalHistory({
       <div className="px-5 flex flex-col gap-2">
         <div>
           <h1 className="font-medium">Name:</h1>
-          <p>{customer.contact_name}</p>
+          <p className="text-gray-500">{customer.contact_name}</p>
         </div>
         <div>
           {customer.phone_number && (
             <>
               <h1 className="font-medium">Phone:</h1>
-              <p>{customer.phone_number}</p>
+              <p className="text-gray-500">{customer.phone_number}</p>
             </>
           )}
         </div>
         <div>
           <h1 className="font-medium">Status:</h1>
-          <p>{isSuccess ? "Transfer Success" : "Transfer Failed"}</p>
+          <p className="text-gray-500">{isSuccess ? "Transfer Success" : "Transfer Failed"}</p>
         </div>
         <div>
           <h1 className="font-medium">Amount:</h1>
