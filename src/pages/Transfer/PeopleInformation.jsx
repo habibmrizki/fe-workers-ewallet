@@ -222,7 +222,7 @@ function PeopleInformation({ selectedId }) {
                 placeholder="Enter Some Notes"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="h-[170px] w-full resize-none rounded-xl border border-gray-300 p-3 outline-none placeholder:text-gray-400 lg:h-[140px]  lg:text-sm lg:rounded-md"
+                className="h-42.5 w-full resize-none rounded-xl border border-gray-300 p-3 outline-none placeholder:text-gray-400 lg:h-35  lg:text-sm lg:rounded-md"
               />
             </div>
           </div>
@@ -259,7 +259,7 @@ function PeopleInformation({ selectedId }) {
       {/* Pin Modal */}
       {modalPin && (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-          <div className="flex w-full max-w-[350px] min-h-[500px] max-h-[calc(100dvh-32px)] flex-col overflow-y-auto rounded-xl bg-brand-gray p-5">
+          <div className="flex w-full max-w-87.5 min-h-125 max-h-[calc(100dvh-32px)] flex-col overflow-y-auto rounded-xl bg-brand-gray p-5">
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium text-brand-secondary">
                 TRANSFER TO {contact?.name.toUpperCase()}

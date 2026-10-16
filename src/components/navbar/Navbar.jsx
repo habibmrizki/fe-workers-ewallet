@@ -52,13 +52,13 @@ const Navbar = () => {
           <div className="hidden gap-5 justify-between lg:flex">
             <Link
               className="p-3 border font-semibold rounded-lg cursor-pointer border-white transition-all duration-300 ease-in-out hover:bg-white hover:text-brand-primary"
-              to="/login"
+              to="/auth"
             >
               Sign In
             </Link>
             <Link
               className="p-3 border font-semibold rounded-lg cursor-pointer border-white bg-white text-brand-primary transition-all duration-300 ease-in-out hover:bg-brand-primary hover:text-white"
-              to="/register"
+              to="/auth/register"
             >
               Sign Up
             </Link>
@@ -129,14 +129,14 @@ const Navbar = () => {
         >
           <div className="flex flex-col gap-2">
             <NavLink
-              to="/profile"
+              to="/dashboard"
               onClick={closeMenu}
               className={({ isActive }) =>
                 isActive ? `${baseClass} ${activeClass}` : baseClass
               }
             >
               <LuUser size={24} />
-              <h3 className="font-light">Profile</h3>
+              <h3 className="font-light">Dashboard</h3>
             </NavLink>
 
             <div className="my-1 border-t border-gray-200" />
@@ -183,7 +183,7 @@ const Navbar = () => {
             <Link
               onClick={closeMenu}
               className="flex items-center p-2 text-brand-primary gap-5 cursor-pointer rounded-lg transition-colors duration-300 ease-in-out hover:bg-brand-primary hover:text-white"
-              to="/login"
+              to="/auth"
             >
               <FaRegUser />
               <h3>Sign In</h3>
@@ -191,7 +191,7 @@ const Navbar = () => {
             <Link
               onClick={closeMenu}
               className="flex items-center p-2 text-brand-red gap-5 cursor-pointer rounded-lg transition-colors duration-300 ease-in-out hover:bg-blue-700 hover:text-white"
-              to="/register"
+              to="/auth/register"
             >
               <FaIdCard />
               <h3>Sign Up</h3>
