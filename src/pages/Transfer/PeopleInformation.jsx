@@ -71,13 +71,20 @@ const contacts = [
   },
 ];
 
-function PeopleInformation({ selectedId }) {
+function PeopleInformation({
+  selectedId,
+  amount,
+  setAmount,
+  notes,
+  setNotes,
+  onFinishSuccess,
+  onSendAgain,
+  onBackDashboard,
+}) {
   const [favorites, setFavorites] = useState([]);
-  const [amount, setAmount] = useState("");
-  const [notes, setNotes] = useState("");
   const [modalPin, setModalPin] = useState(false);
   const [pin, setPin] = useState("");
-
+  const [resultModal, setResultModal] = useState(null);
   const contact = contacts.find((item) => item.id === selectedId);
 
   const toggleFavorites = (id) => {
@@ -222,7 +229,7 @@ function PeopleInformation({ selectedId }) {
                 placeholder="Enter Some Notes"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="h-[170px] w-full resize-none rounded-xl border border-gray-300 p-3 outline-none placeholder:text-gray-400 lg:h-[140px]  lg:text-sm lg:rounded-md"
+                className="h-42.5 w-full resize-none rounded-xl border border-gray-300 p-3 outline-none placeholder:text-gray-400 lg:h-[140px]  lg:text-sm lg:rounded-md"
               />
             </div>
           </div>
@@ -259,7 +266,7 @@ function PeopleInformation({ selectedId }) {
       {/* Pin Modal */}
       {modalPin && (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-          <div className="flex w-full max-w-[350px] min-h-[500px] max-h-[calc(100dvh-32px)] flex-col overflow-y-auto rounded-xl bg-brand-gray p-5">
+          <div className="flex w-full max-w-87.5 min-h-125 max-h-[calc(100dvh-32px)] flex-col overflow-y-auto rounded-xl bg-brand-gray p-5">
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium text-brand-secondary">
                 TRANSFER TO {contact?.name.toUpperCase()}
@@ -299,6 +306,7 @@ function PeopleInformation({ selectedId }) {
                   </span>
                 </div>
               ))}
+
               <input
                 type="password"
                 inputMode="numeric"
@@ -314,9 +322,10 @@ function PeopleInformation({ selectedId }) {
               type="button"
               disabled={pin.length !== 6}
               onClick={() => {
-                alert("Demo modal selesai. Verifikasi PIN belum terhubung");
                 setPin("");
                 setModalPin(false);
+                setResultModal("success");
+                // setResultModal("failed"); if failed
               }}
               className="mt-auto h-11 w-full shrink-0 cursor-pointer rounded-md bg-brand-primary text-sm text-white disabled:cursor-not-allowed disabled:opacity-50"
             >
@@ -326,6 +335,89 @@ function PeopleInformation({ selectedId }) {
             <p className="mt-4 text-center text-xs text-gray-400">
               Forgot Your Pin? <span className="text-brand-primary">Reset</span>
             </p>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL SUCCESS & FAILED */}
+      {resultModal && (
+        <div className="absolute inset-x-0 top-0 bottom-16.25 z-50 flex items-center justify-center overflow-y-auto bg-black/60 px-4 py-4 lg:inset-0">
+          <div className="flex w-full max-w-87.5 flex-col rounded-xl bg-white p-4 shadow-lg lg:max-w-92.5">
+            <p className="border-b border-gray-200 pb-3 text-xs font-medium text-brand-secondary">
+              TRANSFER TO {contact?.name.toUpperCase()}
+            </p>
+
+            <div className="mt-5 flex items-center justify-center">
+              <img
+                src={
+                  resultModal === "success"
+                    ? "/public/modalSucces.svg"
+                    : "/public/modalFailed.svg"
+                }
+                alt={
+                  resultModal === "success"
+                    ? "Transfer Success"
+                    : "Transfer Failed"
+                }
+                className="h-47.5 w-full object-contain lg:h-42.5"
+              />
+            </div>
+
+            <h3 className="mt-5 text-center text-lg font-semibold text-brand-secondary">
+              {resultModal === "success" ? (
+                <>
+                  Yeay Transfer <span className="text-green-500">Success</span>
+                </>
+              ) : (
+                <>
+                  Oops Transfer <span className="text-red-500">Failed</span>
+                </>
+              )}
+            </h3>
+
+            <p className="mt-4 text-center text-xs text-gray-500">
+              {resultModal === "success"
+                ? "Thank you for using this application for your financial"
+                : "Sorry, there is an issue with your transfer. Try again later!"}
+            </p>
+
+            {/* PRIMARY BUTTON */}
+            <button
+              type="button"
+              onClick={() => {
+                if (resultModal === "success") {
+                  setResultModal(null);
+                  onFinishSuccess();
+                } else {
+                  setResultModal(null);
+                  setPin("");
+                  setModalPin(true);
+                }
+              }}
+              className="mt-5 h-11 w-full cursor-pointer rounded-md bg-brand-primary text-sm text-white hover:opacity-90"
+            >
+              {resultModal === "success" ? "Done" : "Try Again"}
+            </button>
+
+            {/* SECONDARY BUTTON */}
+            <button
+              type="button"
+              disabled={resultModal === "failed" && !onBackDashboard}
+              onClick={() => {
+                if (resultModal === "success") {
+                  setResultModal(null);
+                  onSendAgain();
+                } else {
+                  setResultModal(null);
+                  onBackDashboard();
+                }
+              }}
+              className="mt-3 h-11 w-full cursor-pointer rounded-md border border-brand-primary bg-white text-sm text-brand-primary hover:bg-brand-primary/5 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {resultModal === "success"
+                ? "Transfer Again"
+                : "Back To Dashboard"}
+            </button>
           </div>
         </div>
       )}

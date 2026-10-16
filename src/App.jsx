@@ -5,11 +5,13 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ForgotPass from "./pages/auth/ForgotPass";
 import TransferPage from "./pages/Transfer/TransferPage";
+import TransferSummary from "./pages/Transfer/TransferSummary";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<TransferPage />} />
+      <Route path="/transfer" element={<TransferSummary />} />
 
       <Route path="/edit-profile" element={<EditProfile />} />
       <Route path="auth">
