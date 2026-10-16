@@ -20,9 +20,9 @@ function App() {
         <Route path="profile" element={<EditProfile />} />
       </Route>
       <Route path="auth">
-        <Route index element={<Login/>}/>
-        <Route path="register" element={<Register/>}/>
-        <Route path="forgot-password" element={<ForgotPass/>}/>
+        <Route index element={<Login />} />
+        <Route path="register" element={<Register />} />
+        <Route path="forgot-password" element={<ForgotPass />} />
       </Route>
     </Routes>
   );
