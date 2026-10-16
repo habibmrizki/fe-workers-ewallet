@@ -28,10 +28,9 @@ const navigation = [
   { name: "Profile", icon: FiUser },
 ];
 
-function FindPeople() {
+function FindPeople({ onSelectContact }) {
   const [search, setSearch] = useState("");
   const [favorites, setFavorites] = useState([]);
-  const [selectedId, setSelectedId] = useState(null);
 
   const filteredContacts = contacts.filter((contact) =>
     `${contact.name} ${contact.phone}`
@@ -48,7 +47,7 @@ function FindPeople() {
   };
 
   const selectContact = (contact) => {
-    setSelectedId(contact.id);
+    onSelectContact(contact.id);
   };
 
   return (
@@ -123,11 +122,7 @@ function FindPeople() {
               <div
                 key={contact.id}
                 className={`flex items-center justify-between rounded-md px-3 py-3 transition-colors hover:bg-brand-primary/5 lg:rounded-none lg:px-5 ${
-                  selectedId === contact.id
-                    ? "bg-brand-primary/10"
-                    : index % 2 === 0
-                      ? "lg:bg-gray-50"
-                      : "bg-white"
+                  index % 2 === 0 ? "lg:bg-gray-50" : "bg-white"
                 }`}
               >
                 <button
