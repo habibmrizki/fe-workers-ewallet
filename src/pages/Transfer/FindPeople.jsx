@@ -2,11 +2,11 @@ import { useState } from "react";
 import {
   FiSearch,
   FiStar,
-  FiGrid,
+  // FiGrid,
   FiSend,
-  FiClock,
-  FiPlusCircle,
-  FiUser,
+  // FiClock,
+  // FiPlusCircle,
+  // FiUser,
 } from "react-icons/fi";
 
 // Dummy data
@@ -20,13 +20,13 @@ const contacts = [
   { id: 7, name: "Ralph Edwards", phone: "(239) 555-0108" },
 ];
 
-const navigation = [
-  { name: "Dashboard", icon: FiGrid },
-  { name: "Transfer", icon: FiSend },
-  { name: "History", icon: FiClock },
-  { name: "Top Up", icon: FiPlusCircle },
-  { name: "Profile", icon: FiUser },
-];
+// const navigation = [
+//   { name: "Dashboard", icon: FiGrid },
+//   { name: "Transfer", icon: FiSend },
+//   { name: "History", icon: FiClock },
+//   { name: "Top Up", icon: FiPlusCircle },
+//   { name: "Profile", icon: FiUser },
+// ];
 
 function FindPeople({ onSelectContact }) {
   const [search, setSearch] = useState("");
@@ -59,17 +59,16 @@ function FindPeople({ onSelectContact }) {
   };
 
   return (
-    <div className="mx-auto flex h-dvh w-full max-w-[390px] flex-col bg-white lg:h-auto lg:max-w-none">
+    <div className="mx-auto flex h-dvh w-full max-w-97.5 flex-col bg-white lg:h-auto lg:max-w-none">
       <header className="shrink-0 bg-brand-primary p-3 text-white lg:hidden">
         Transfer
       </header>
 
-      <main className="min-h-0 flex-1 overflow-y-auto bg-white p-4 lg:overflow-visible lg:p-6">
+      <main className="min-h-0 flex-1 overflow-y-auto bg-white p-6 lg:overflow-visible lg:px-10 lg:py-7">
         <div className="mb-5 hidden lg:block">
           <div className="flex items-center gap-3">
-            <FiSend size={20} className="text-brand-primary" />
-
-            <h2 className="text-base font-semibold text-brand-secondary">
+            <FiSend size={20} className="text-blue-600" />
+            <h2 className="text-lg font-bold font-montserrat text-brand-secondary">
               Transfer Money
             </h2>
           </div>
@@ -105,7 +104,7 @@ function FindPeople({ onSelectContact }) {
         <div className="lg:rounded-md lg:border lg:border-gray-200 lg:p-6">
           <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h3 className="font-bold text-brand-secondary">Find People</h3>
+              <h3 className="text-lg md:text-base font-medium md:font-semibold font-montserrat">Find People</h3>
 
               <p className="mt-1 hidden text-xs text-gray-500 lg:block">
                 {filteredContacts.length} Results Found
@@ -179,7 +178,7 @@ function FindPeople({ onSelectContact }) {
         </div>
       </main>
 
-      <nav className="mt-auto grid shrink-0 grid-cols-5 border-t border-gray-100 bg-white px-2 py-3 lg:hidden">
+      {/* <nav className="mt-auto grid shrink-0 grid-cols-5 border-t border-gray-100 bg-white px-2 py-3 lg:hidden">
         {navigation.map(({ name, icon: Icon }) => (
           <div
             key={name}
@@ -191,7 +190,7 @@ function FindPeople({ onSelectContact }) {
             <span className="text-[10px]">{name}</span>
           </div>
         ))}
-      </nav>
+      </nav> */}
     </div>
   );
 }

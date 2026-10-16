@@ -231,7 +231,7 @@ const Dashboard = () => {
   );
 
   const selectClass =
-    "appearance-none w-full bg-white border border-gray-300 hover:border-brand-background focus:border-brand-secondary text-brand-secondary py-2 pl-4 pr-10 rounded-lg shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-background/40";
+    "appearance-none w-full bg-white border border-gray-300 hover:border-brand-background focus:border-brand-secondary text-brand-secondary py-2 pl-4 pr-10 rounded-lg shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-background/40 text-sm";
 
   return (
     <section className="font-montserrat text-brand-secondary">
@@ -301,7 +301,7 @@ const Dashboard = () => {
           <div className="flex justify-between items-center relative z-10">
             <div className="flex flex-col gap-2">
               <div className="text-sm text-brand-charcoal">Balance</div>
-              <div className="font-jakarta text-xl font-semibold">
+              <div className="font-jakarta text-sm font-semibold">
                 Rp {balance.toLocaleString("id-ID")}
               </div>
             </div>
@@ -314,7 +314,7 @@ const Dashboard = () => {
                 >
                   <LuPlus className="text-white" />
                 </Link>
-                <div>Top Up</div>
+                <p className="text-sm">Top Up</p>
               </div>
               <div className="flex flex-col items-center gap-2.5">
                 <Link
@@ -324,7 +324,7 @@ const Dashboard = () => {
                 >
                   <LuSend className="text-white" />
                 </Link>
-                <div>Transfer</div>
+                <p className="text-sm">Transfer</p>
               </div>
             </div>
           </div>
@@ -345,17 +345,29 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-10 gap-6 py-8 px-6 w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-10 gap-6 w-full md:p-6">
         {/* Chart Section */}
-        <div className="lg:col-span-7 chart p-4 rounded-2xl border border-gray-300 w-full">
+        <div className="lg:col-span-7 chart p-6 rounded-2xl md:border border-gray-300 w-full">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="font-jakarta text-lg font-semibold text-brand-secondary">
+            <h2 className="font-jakarta text-sm font-semibold text-brand-secondary">
               Financial Chart
             </h2>
 
             <div className="flex gap-2">
+              {/* Filter Dropdown */}
+              <div className="relative inline-block">
+                <select
+                  value={filter}
+                  onChange={handleDropDownFilter}
+                  className={selectClass}
+                >
+                  <option value="All">All</option>
+                  <option value="Income">Income</option>
+                  <option value="Expense">Expense</option>
+                </select>
+              </div>
               {/* Range Dropdown */}
-              <div className="relative inline-block w-48">
+              <div className="relative inline-block md:w-48">
                 <select
                   value={range}
                   onChange={handleDropDownRange}
@@ -383,19 +395,6 @@ const Dashboard = () => {
                   </svg>
                 </div>
               </div>
-
-              {/* Filter Dropdown */}
-              <div className="relative inline-block">
-                <select
-                  value={filter}
-                  onChange={handleDropDownFilter}
-                  className={selectClass}
-                >
-                  <option value="All">All</option>
-                  <option value="Income">Income</option>
-                  <option value="Expense">Expense</option>
-                </select>
-              </div>
             </div>
           </div>
           <Bar data={data} options={options} />
@@ -411,7 +410,7 @@ const Dashboard = () => {
               </div>
               <Link
                 type="button"
-                className="cursor-pointer text-brand-background hover:text-brand-secondary transition-colors"
+                className="cursor-pointer text-brand-background hover:text-brand-secondary transition-colors text-sm"
                 to="/history"
               >
                 See All

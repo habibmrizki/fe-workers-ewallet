@@ -94,6 +94,7 @@ function PeopleInformation({
       setFavorites([...favorites, id]);
     }
   };
+
   return (
     <div className="relative mx-auto flex h-dvh w-full flex-col bg-white lg:h-auto lg:min-h-screen">
       <header className="bg-brand-primary p-3 text-white h-14 flex items-center lg:hidden">
@@ -212,8 +213,7 @@ function PeopleInformation({
                   setAmount(value);
                 }}
                 placeholder="Enter Nominal Transfer"
-                className="h-11 w-full p-3 outline-none placeholder:text-gray-400 lg:text-sm
-                "
+                className="h-11 w-full p-3 outline-none placeholder:text-gray-400 lg:text-sm"
               />
             </div>
           </div>
@@ -229,10 +229,11 @@ function PeopleInformation({
                 placeholder="Enter Some Notes"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="h-42.5 w-full resize-none rounded-xl border border-gray-300 p-3 outline-none placeholder:text-gray-400 lg:h-[140px]  lg:text-sm lg:rounded-md"
+                className="h-42.5 w-full resize-none rounded-xl border border-gray-300 p-3 outline-none placeholder:text-gray-400 lg:h-35 lg:text-sm lg:rounded-md"
               />
             </div>
           </div>
+
           <button
             type="button"
             onClick={() => {
