@@ -66,33 +66,104 @@ export const loginUser = createAsyncThunk(
   },
 );
 
+export const logoutUser = createAsyncThunk(
+  "auth/logoutUser",
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().auth.token;
+
+      const response = await fetch(`${getBaseUrl()}/auth/logout`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        return rejectWithValue(data?.message || "Email atau password salah");
+      }
+
+      return data;
+    } catch (err) {
+      return rejectWithValue(
+        err.message || "Gagal terhubung ke server backend",
+      );
+    }
+  },
+);
+
+export const sendResetLink = createAsyncThunk(
+  "auth/sendResetLink",
+  async ({ email }, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${getBaseUrl()}/auth/forgot-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        return rejectWithValue(data?.message || "eror");
+      }
+
+      return data;
+    } catch (err) {
+      return rejectWithValue(
+        err.message || "Gagal terhubung ke server backend",
+      );
+    }
+  },
+);
+
+export const resetPassword = createAsyncThunk(
+  "auth/resetPassword",
+  async ({ token, password }, { rejectWithValue }) => {
+    try {
+      const response = await fetch(`${getBaseUrl()}/auth/reset-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token, "new_password": password }),
+      });
+
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        return rejectWithValue(
+          data?.message || "Gagal memperbarui password",
+        );
+      }
+
+      return data;
+    } catch (err) {
+      return rejectWithValue(
+        err.message || "Gagal terhubung ke server backend",
+      );
+    }
+  },
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
     token: null,
     user: null,
-    isLoggedIn: false,
     loading: false,
     success: false,
     error: null,
-    // nggak usah
-    message: null,
   },
   reducers: {
     resetAuthState: (state) => {
       state.loading = false;
       state.success = false;
       state.error = null;
-      state.message = null;
-    },
-    logout: (state) => {
-      state.token = null;
-      state.user = null;
-      state.isLoggedIn = false;
-      state.loading = false;
-      state.success = false;
-      state.error = null;
-      state.message = null;
     },
   },
   extraReducers: (builder) => {
@@ -102,13 +173,11 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
         state.success = false;
-        state.message = null;
       })
-      .addCase(registerUser.fulfilled, (state, action) => {
+      .addCase(registerUser.fulfilled, (state) => {
         state.loading = false;
         state.success = true;
         state.error = null;
-        state.message = action.payload?.message || "Registrasi berhasil!";
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
@@ -120,25 +189,71 @@ const authSlice = createSlice({
         state.loading = true;
         state.error = null;
         state.success = false;
-        state.message = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
-        state.isLoggedIn = true;
         state.token = action.payload.token;
         state.user = action.payload.user;
         state.error = null;
-        state.message = action.payload.message || "Login berhasil!";
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.success = false;
-        state.isLoggedIn = false;
         state.error = action.payload || "Login gagal";
+      })
+      // Logout
+      .addCase(logoutUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.loading = false;
+        state.success = true;
+        state.token = null;
+        state.user = null;
+        state.error = null;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.loading = false;
+        state.success = false;
+        state.error = action.payload || "Logout gagal";
+      })
+      // Forgot Password
+      .addCase(sendResetLink.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(sendResetLink.fulfilled, (state) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+      })
+      .addCase(sendResetLink.rejected, (state, action) => {
+        state.loading = false;
+        state.success = false;
+        state.error = action.payload || "Reset Password Gagal";
+      })
+      // Reset Password
+      .addCase(resetPassword.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(resetPassword.fulfilled, (state) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.loading = false;
+        state.success = false;
+        state.error = action.payload || "Reset password gagal";
       });
   },
 });
 
-export const { resetAuthState, logout } = authSlice.actions;
+export const { resetAuthState } = authSlice.actions;
 export default authSlice.reducer;

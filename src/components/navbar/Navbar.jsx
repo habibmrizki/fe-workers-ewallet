@@ -14,7 +14,7 @@ import {
 
 import iconWallet from "../../assets/wallet-icon.png";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../redux/slice/authSlice";
+import { logoutUser } from "../../redux/slice/authSlice";
 
 const MENU_ITEMS = [
   { to: "/dashboard", label: "Dashboard", Icon: LuLifeBuoy },
@@ -28,8 +28,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isLoggedIn, user } = useSelector((state) => state.auth);
-  const profile = useSelector((state) => state.user?.profile);
+  const { user } = useSelector((state) => state.auth);
 
   const displayName = profile?.fullName || user?.fullname || "User";
   const apiBaseUrl = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
@@ -41,7 +40,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logoutUser());
     closeMenu();
     navigate("/auth");
   };
@@ -63,7 +62,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
           </Link>
         </div>
 
-        {!isLoggedIn && (
+        {!user && (
           <div className="hidden gap-5 justify-between lg:flex">
             <Link
               className="w-25 h-10 border font-semibold rounded-lg cursor-pointer border-white transition-all duration-300 ease-in-out text-center flex items-center justify-center hover:bg-white hover:text-brand-primary"
@@ -80,7 +79,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
           </div>
         )}
 
-        {isLoggedIn && (
+        {user && (
           <button
             type="button"
             onClick={toggleMenu}
@@ -135,7 +134,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
       {isMenuOpen && <div className="fixed inset-0 z-40" onClick={closeMenu} />}
 
       {/* Dropdown Menu Desktop */}
-      {isLoggedIn && (
+      {user && (
         <div
           className={`absolute z-50 right-12 top-16 hidden w-48 rounded-xl border border-gray-300 bg-white p-3 shadow-2xl origin-top-right transition-all duration-300 ease-in-out lg:block ${
             isMenuOpen
@@ -177,7 +176,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
             : "invisible opacity-0 -translate-y-2 scale-95"
         }`}
       >
-        {isLoggedIn ? (
+        {user ? (
           <div className="flex flex-col gap-2">
             {MENU_ITEMS.map(({ to, label, Icon }) => (
               <NavLink
