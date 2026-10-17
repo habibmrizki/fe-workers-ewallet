@@ -1,12 +1,19 @@
 import { useState } from "react";
-function ChangePinModal({ isShowModal, setIsShowModal }) {
-  const [pin, setPin] = useState(new Array(6).fill(""));
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { changePin, setPin } from "../redux/slice/userSlice";
+
+function ChangePinModal({ isShowModal, setIsShowModal, mode = "change" }) {
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.user.securityLoading);
+  const [pin, setPinDigits] = useState(new Array(6).fill(""));
   const [errPin, setErrPin] = useState("");
+  const [requestError, setRequestError] = useState("");
 
   const handleChange = (e, idx) => {
     if (isNaN(e.target.value)) return false;
     setErrPin("");
-    setPin((prev) =>
+    setPinDigits((prev) =>
       prev.map((data, id) => (id === idx ? e.target.value : data)),
     );
     if (e.target.value && e.target.nextSibling) {
@@ -19,7 +26,7 @@ function ChangePinModal({ isShowModal, setIsShowModal }) {
     }
   };
 
-  const handleSubmitPin = (e) => {
+  const handleSubmitPin = async (e) => {
     e.preventDefault();
     if (pin.some((val) => val === "")) {
       setErrPin("PIN must have 6 digits");
@@ -27,13 +34,25 @@ function ChangePinModal({ isShowModal, setIsShowModal }) {
     }
     const pinValue = pin.join("");
 
-    console.log(pinValue);
-    setIsShowModal(false);
+    setRequestError("");
+    try {
+      await dispatch(
+        mode === "set" ? setPin(pinValue) : changePin(pinValue),
+      ).unwrap();
+      toast.success(
+        mode === "set" ? "PIN berhasil dibuat." : "PIN berhasil diubah.",
+      );
+      setPinDigits(new Array(6).fill(""));
+      setIsShowModal(false);
+    } catch (error) {
+      setRequestError(error || "Gagal menyimpan PIN.");
+    }
   };
 
   const handleCloseModal = () => {
     setErrPin("");
-    setPin(new Array(6).fill(""));
+    setRequestError("");
+    setPinDigits(new Array(6).fill(""));
     setIsShowModal(false);
   };
 
@@ -51,7 +70,9 @@ function ChangePinModal({ isShowModal, setIsShowModal }) {
     lg:max-w-3xl lg:p-8
   "
       >
-        <h1 className="text-2xl font-semibold text-center">Change Pin</h1>
+        <h1 className="text-2xl font-semibold text-center">
+          {mode === "set" ? "Set PIN" : "Change PIN"}
+        </h1>
         <p className="mt-2 text-sm text-gray-500 text-center">
           Please save your pin because this so important.
         </p>
@@ -81,6 +102,11 @@ function ChangePinModal({ isShowModal, setIsShowModal }) {
           </div>
 
           <p className="min-h-5 text-center text-sm text-red-500">{errPin}</p>
+          {requestError && (
+            <p role="alert" className="text-center text-sm text-red-500">
+              {requestError}
+            </p>
+          )}
 
           <div className="flex gap-3 sm:gap-2">
             <button
@@ -93,9 +119,10 @@ function ChangePinModal({ isShowModal, setIsShowModal }) {
 
             <button
               type="submit"
-              className="w-full rounded-md bg-brand-background px-4 py-3 text-white sm:flex-1 cursor-pointer hover:bg-slate-600"
+              disabled={loading}
+              className="w-full rounded-md bg-brand-background px-4 py-3 text-white sm:flex-1 cursor-pointer hover:bg-slate-600 disabled:opacity-60"
             >
-              Submit
+              {loading ? "Submitting..." : "Submit"}
             </button>
           </div>
         </form>
