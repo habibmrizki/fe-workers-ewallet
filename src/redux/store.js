@@ -10,6 +10,7 @@ import {
   PURGE,
 } from "redux-persist";
 import authReducer from "./slice/authSlice";
+import userReducer from "./slice/userSlice";
 
 const storage = {
   getItem: (key) => Promise.resolve(window.localStorage.getItem(key)),
@@ -20,6 +21,7 @@ const storage = {
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  user: userReducer,
 });
 
 const persistConfig = {

@@ -16,7 +16,7 @@ const Sidebar = () => {
 
   return (
     <aside className="hidden lg:flex lg:w-1/5 h-full border-r border-gray-300 overflow-y-auto bg-white shrink-0">
-      <nav className="flex flex-col gap-2 pl-11 pr-5 pt-10 pb-5 w-full justify-between h-full">
+      <nav className="flex flex-col gap-2 pl-7 pr-7 pt-6 pb-5 w-full justify-between h-full">
         <div className="flex flex-col gap-2">
           <NavLink
             className={({ isActive }) =>

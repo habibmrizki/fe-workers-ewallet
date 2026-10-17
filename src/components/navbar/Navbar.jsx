@@ -11,7 +11,8 @@ import {
   LuUser,
   LuX,
 } from "react-icons/lu";
-import { BsWallet2 } from "react-icons/bs";
+
+import iconWallet from "../../assets/wallet-icon.png";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../redux/slice/authSlice";
 
@@ -29,8 +30,11 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
 
   const { user } = useSelector((state) => state.auth);
 
-  const displayName = user?.fullname || "User";
-  const userPhoto = user?.avatar || "";
+  const displayName = profile?.fullName || user?.fullname || "User";
+  const apiBaseUrl = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+  const userPhoto = profile?.avatar
+    ? `${apiBaseUrl}/${profile.avatar.replace(/^\/+/, "")}`
+    : user?.avatar || "";
 
   const closeMenu = () => setIsMenuOpen(false);
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
@@ -52,9 +56,9 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
     <header className="relative z-30 bg-brand-primary text-white shrink-0">
       <nav className="flex items-center justify-between px-5 py-4 lg:px-12">
         <div className="flex flex-row items-center gap-3">
-          <BsWallet2 className="text-white text-2xl" />
+          <img src={iconWallet} width={40}/>
           <Link to="/" className="font-jakarta text-2xl font-semibold">
-            E-Wallet
+            Worker Wallet
           </Link>
         </div>
 
