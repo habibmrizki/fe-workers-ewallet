@@ -1,23 +1,29 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { LuKeyRound } from "react-icons/lu";
+import { changePassword } from "../redux/slice/userSlice";
 
 const ChangePasswordModal = ({ isShowModal, setShowModal }) => {
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.user.securityLoading);
   const [eyeExistPass, setEyeExistPass] = useState(false);
   const [eyeNewPass, setEyeNewPass] = useState(false);
   const [eyeConfirmPass, setEyeNewConfirmPass] = useState(false);
   const [errNewPass, setErrNewPass] = useState("");
   const [errConfirmPass, setErrConfirmPass] = useState("");
+  const [requestError, setRequestError] = useState("");
   const [errExistPass, setErrExistPass] = useState("");
 
-  const minPassword = 8
+  const minPassword = 8;
   const validateNewPassword = (value) => {
     if (!value) return "New password is required";
     if (value.length < minPassword)
       return `Password at least ${minPassword} characters`;
     return "";
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const oldPassword = e.target.old_password.value;
@@ -29,6 +35,7 @@ const ChangePasswordModal = ({ isShowModal, setShowModal }) => {
     setErrExistPass("");
     setErrNewPass("");
     setErrConfirmPass("");
+    setRequestError("");
 
     if (!oldPassword) {
       setErrExistPass("Existing password is required");
@@ -51,8 +58,13 @@ const ChangePasswordModal = ({ isShowModal, setShowModal }) => {
 
     if (hasError) return;
 
-    console.log({ old_password: oldPassword, new_password: newPassword });
-    setShowModal(false);
+    try {
+      await dispatch(changePassword({ oldPassword, newPassword })).unwrap();
+      toast.success("Password berhasil diubah.");
+      setShowModal(false);
+    } catch (error) {
+      setRequestError(error || "Gagal mengubah password.");
+    }
   };
   if (!isShowModal) return null;
   return (
@@ -140,6 +152,11 @@ const ChangePasswordModal = ({ isShowModal, setShowModal }) => {
             {errConfirmPass && (
               <p className="text-red-500 text-sm mt-1">{errConfirmPass}</p>
             )}
+            {requestError && (
+              <p role="alert" className="text-red-500 text-sm mt-1">
+                {requestError}
+              </p>
+            )}
           </div>
           <div className="flex flex-col-reverse sm:flex-row gap-3 mt-6">
             <button
@@ -152,9 +169,10 @@ const ChangePasswordModal = ({ isShowModal, setShowModal }) => {
 
             <button
               type="submit"
-              className="w-full rounded-md bg-brand-background px-4 py-3 text-white cursor-pointer hover:bg-slate-600"
+              disabled={loading}
+              className="w-full rounded-md bg-brand-background px-4 py-3 text-white cursor-pointer hover:bg-slate-600 disabled:opacity-60"
             >
-              Submit
+              {loading ? "Submitting..." : "Submit"}
             </button>
           </div>
         </form>
