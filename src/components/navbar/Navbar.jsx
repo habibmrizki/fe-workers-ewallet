@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import { FaRegUser, FaIdCard } from "react-icons/fa";
 import {
   LuBanknote,
@@ -13,6 +13,8 @@ import {
 } from "react-icons/lu";
 
 import iconWallet from "../../assets/wallet-icon.png";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../redux/slice/authSlice";
 
 const MENU_ITEMS = [
   { to: "/dashboard", label: "Dashboard", Icon: LuLifeBuoy },
@@ -23,11 +25,22 @@ const MENU_ITEMS = [
 ];
 
 const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
-  const isLoggedIn = true;
-  const userPhoto = "";
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { isLoggedIn, user } = useSelector((state) => state.auth);
+
+  const displayName = user?.fullname || "User";
+  const userPhoto = user?.avatar || "";
 
   const closeMenu = () => setIsMenuOpen(false);
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    closeMenu();
+    navigate("/auth");
+  };
 
   const baseClass =
     "flex items-center p-2 gap-5 cursor-pointer rounded-lg text-brand-primary transition-colors duration-300 ease-in-out hover:bg-brand-primary hover:text-white";
@@ -40,7 +53,6 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
     <header className="relative z-30 bg-brand-primary text-white shrink-0">
       <nav className="flex items-center justify-between px-5 py-4 lg:px-12">
         <div className="flex flex-row items-center gap-3">
-          {/* <BsWallet2 className="text-white text-2xl" /> */}
           <img src={iconWallet} width={40}/>
           <Link to="/" className="font-jakarta text-2xl font-semibold">
             Worker Wallet
@@ -72,8 +84,8 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
             aria-label="Menu akun"
             aria-expanded={isMenuOpen}
           >
-            <span className="text-sm">Hola !</span>
-            <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-brand-white">
+            <span className="text-sm font-medium"> {displayName} </span>
+            <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-brand-white text-brand-primary">
               {userPhoto ? (
                 <img
                   src={userPhoto}
@@ -141,7 +153,11 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
 
             <div className="my-1 border-t border-gray-200" />
 
-            <button type="button" onClick={closeMenu} className={logoutClass}>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className={logoutClass}
+            >
               <LuLogOut className="text-xl rotate-180" />
               <h3>Keluar</h3>
             </button>
@@ -175,7 +191,11 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
 
             <div className="my-1 border-t border-gray-200" />
 
-            <button type="button" onClick={closeMenu} className={logoutClass}>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className={logoutClass}
+            >
               <LuLogOut size={24} className="rotate-180" />
               <h3>Keluar</h3>
             </button>

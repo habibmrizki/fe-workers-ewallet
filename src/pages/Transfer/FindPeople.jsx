@@ -15,11 +15,19 @@ function FindPeople({ onSelectContact }) {
   const [search, setSearch] = useState("");
   const [favorites, setFavorites] = useState([]);
 
-  const filteredContacts = contacts.filter((contact) =>
-    `${contact.name} ${contact.phone}`
-      .toLowerCase()
-      .includes(search.toLowerCase()),
-  );
+  const filteredContacts = contacts.filter((contact) => {
+    const searchValue = search.toLowerCase().trim();
+
+    const searchNumber = search.replace(/\D/g, "");
+    const phoneNumber = contact.phone.replace(/\D/g, "");
+
+    const matchName = contact.name.toLowerCase().includes(searchValue);
+
+    const matchPhone =
+      searchNumber.length > 0 && phoneNumber.includes(searchNumber);
+
+    return matchName || matchPhone;
+  });
 
   const toggleFavorites = (id) => {
     if (favorites.includes(id)) {
