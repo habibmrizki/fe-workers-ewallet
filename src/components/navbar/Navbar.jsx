@@ -28,9 +28,13 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
   const dispatch = useDispatch();
 
   const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const profile = useSelector((state) => state.user?.profile);
 
-  const displayName = user?.fullname || "User";
-  const userPhoto = user?.avatar || "";
+  const displayName = profile?.fullName || user?.fullname || "User";
+  const apiBaseUrl = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+  const userPhoto = profile?.avatar
+    ? `${apiBaseUrl}/${profile.avatar.replace(/^\/+/, "")}`
+    : user?.avatar || "";
 
   const closeMenu = () => setIsMenuOpen(false);
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
