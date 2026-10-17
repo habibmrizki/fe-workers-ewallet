@@ -38,15 +38,15 @@ function TransferSummary({
 
   return (
     <div className="relative mx-auto flex h-dvh w-full flex-col bg-white lg:h-auto lg:min-h-screen">
-      <header className="flex h-14 items-center bg-brand-primary text-white lg:hidden">
+      <header className="bg-brand-primary p-4 text-white h-14 flex items-center shrink-0 lg:hidden font-medium">
         Transfer
       </header>
 
-      <main className="min-h-0 flex-1 overflow-y-auto bg-white p-4 lg:overflow-visible lg:p-6">
+      <main className="min-h-0 flex-1 overflow-y-auto bg-white p-6 lg:overflow-visible lg:px-10 lg:py-7">
         <div className="mb-6 hidden lg:block">
           <div className="flex items-center gap-3">
-            <FiSend size={20} className="text-brand-primary" />
-            <h2 className="text-base font-semibold text-brand-secondary">
+            <FiSend size={20} className="text-blue-600" />
+            <h2 className="text-lg font-bold font-montserrat text-brand-secondary">
               Transfer Money
             </h2>
           </div>
@@ -82,7 +82,7 @@ function TransferSummary({
 
         {/* Summary card */}
         <div className="w-full rounded-md border border-gray-200 bg-white p-4 lg:p-5">
-          <div className="flex flex-col items-center border-b border-gray-200 pb-5">
+          <div className="flex flex-col items-center text-center border-b border-gray-200 pb-5">
             <FiCheckCircle size={44} className="text-green-500" />
             <h3 className="mt-3 text-lg font-semibold text-brand-secondary">
               Transfer Success

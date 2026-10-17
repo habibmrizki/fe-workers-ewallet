@@ -34,7 +34,7 @@ function Login() {
             <div className="grid gap-3">
                 <div className="flex gap-2 items-center">
                     <img src={walletIcon} alt="e-wallet icon workers" width={30}/>
-                    <h1 className="text-blue-600 text-[20px] font-medium">E-Wallet</h1>
+                    <h1 className="text-blue-400 text-[20px] font-medium">E-Wallet</h1>
                 </div>
                 <h2 className="text-[18px] md:text-2xl font-medium text-gray-300">Hello Welcome Back 👋</h2>
                 <p className="text-gray-400 font-montserrat text-xs md:text-sm">Fill out the form correctly or you can login with several option.</p>
@@ -80,7 +80,7 @@ function Login() {
                 <div className="grid gap-2">
                     <div className="flex justify-between items-center">
                         <label htmlFor="password" className="font-medium text-gray-200">Password</label>
-                        <Link to="/auth/forgot-password" className="text-xs text-blue-500 hover:text-blue-700">Forgot Password ?</Link>
+                        <Link to="/auth/forgot-password" className="text-xs text-blue-400 hover:text-blue-700">Forgot Password ?</Link>
                     </div>
                     <div className="relative">
                         <IoKeypad className="absolute top-4 left-3 text-md text-gray-800"/>
@@ -112,7 +112,7 @@ function Login() {
                     >
                             Login
                     </button>
-                    <p className="text-gray-300 font-montserrat text-sm">Not Have an Account? <Link to="/auth/register" className="text-blue-600 hover:text-blue-700 cursor-pointer font-medium">Register</Link></p>
+                    <p className="text-gray-300 font-montserrat text-sm">Not Have an Account? <Link to="/auth/register" className="text-blue-400 hover:text-blue-700 cursor-pointer font-medium">Register</Link></p>
                 </div>
             </form>
         </section>

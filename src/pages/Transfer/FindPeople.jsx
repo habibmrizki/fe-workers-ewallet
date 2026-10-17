@@ -1,15 +1,6 @@
 import { useState } from "react";
-import {
-  FiSearch,
-  FiStar,
-  // FiGrid,
-  FiSend,
-  // FiClock,
-  // FiPlusCircle,
-  // FiUser,
-} from "react-icons/fi";
+import { FiSearch, FiStar, FiSend } from "react-icons/fi";
 
-// Dummy data
 const contacts = [
   { id: 1, name: "Ghaluh 1", phone: "(239) 555-0108" },
   { id: 2, name: "Albert Flores", phone: "(239) 555-0108" },
@@ -19,14 +10,6 @@ const contacts = [
   { id: 6, name: "Cody Fisher", phone: "(239) 555-0108" },
   { id: 7, name: "Ralph Edwards", phone: "(239) 555-0108" },
 ];
-
-// const navigation = [
-//   { name: "Dashboard", icon: FiGrid },
-//   { name: "Transfer", icon: FiSend },
-//   { name: "History", icon: FiClock },
-//   { name: "Top Up", icon: FiPlusCircle },
-//   { name: "Profile", icon: FiUser },
-// ];
 
 function FindPeople({ onSelectContact }) {
   const [search, setSearch] = useState("");
@@ -51,12 +34,14 @@ function FindPeople({ onSelectContact }) {
   };
 
   return (
-    <div className="mx-auto flex h-dvh w-full max-w-97.5 flex-col bg-white lg:h-auto lg:max-w-none">
-      <header className="shrink-0 bg-brand-primary p-3 text-white lg:hidden">
+    // PERBAIKAN: Gunakan min-h-screen dan w-full tanpa batasan max-w-97.5 pada mobile
+    <div className="flex min-h-screen w-full flex-col bg-white">
+      <header className="bg-brand-primary p-4 text-white h-14 flex items-center shrink-0 lg:hidden font-medium">
         Transfer
       </header>
 
-      <main className="min-h-0 flex-1 overflow-y-auto bg-white p-6 lg:overflow-visible lg:px-10 lg:py-7">
+      <main className="flex-1 bg-white p-4 sm:p-6 lg:px-10 lg:py-7">
+        {/* STEPPER DESKTOP */}
         <div className="mb-5 hidden lg:block">
           <div className="flex items-center gap-3">
             <FiSend size={20} className="text-blue-600" />
@@ -67,10 +52,10 @@ function FindPeople({ onSelectContact }) {
 
           <div className="mt-5 flex items-center gap-3 text-xs">
             <div className="flex items-center gap-2">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-primary text-white">
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-primary text-white font-medium">
                 1
               </span>
-              <span className="text-brand-primary">Find People</span>
+              <span className="text-brand-primary font-medium">Find People</span>
             </div>
 
             <div className="w-16 border-t border-dashed border-gray-300" />
@@ -93,26 +78,29 @@ function FindPeople({ onSelectContact }) {
           </div>
         </div>
 
-        <div className="lg:rounded-md lg:border lg:border-gray-200 lg:p-6">
+        {/* SEARCH & CONTACT LIST CONTAINER */}
+        <div className="lg:rounded-xl lg:border lg:border-gray-200 lg:p-6">
           <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h3 className="text-lg md:text-base font-medium md:font-semibold font-montserrat">Find People</h3>
+              <h3 className="text-base font-semibold font-montserrat text-brand-secondary">
+                Find People
+              </h3>
 
               <p className="mt-1 hidden text-xs text-gray-500 lg:block">
                 {filteredContacts.length} Results Found
               </p>
             </div>
 
-            <div className="flex items-center rounded-md border border-gray-300 focus-within:border-brand-primary lg:w-72">
+            <div className="flex items-center rounded-lg border border-gray-300 focus-within:border-brand-primary lg:w-72">
               <input
                 type="text"
                 placeholder="Enter Number Or Full Name"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="h-11 w-full p-3 text-xs text-brand-secondary outline-none placeholder:text-gray-400 lg:h-10"
+                className="h-10 w-full p-3 text-xs text-brand-secondary outline-none placeholder:text-gray-400"
               />
 
-              <FiSearch size={20} className="mr-3 shrink-0 text-gray-500" />
+              <FiSearch size={18} className="mr-3 shrink-0 text-gray-400" />
             </div>
           </div>
 
@@ -120,16 +108,16 @@ function FindPeople({ onSelectContact }) {
             {filteredContacts.map((contact, index) => (
               <div
                 key={contact.id}
-                className={`flex items-center justify-between rounded-md px-3 py-3 transition-colors hover:bg-brand-primary/5 lg:rounded-none lg:px-5 ${
+                className={`flex items-center justify-between rounded-lg px-3 py-3 transition-colors hover:bg-brand-primary/5 lg:rounded-none lg:px-5 ${
                   index % 2 === 0 ? "lg:bg-gray-50" : "bg-white"
                 }`}
               >
                 <button
                   type="button"
                   onClick={() => selectContact(contact)}
-                  className="flex min-w-0 flex-1 cursor-pointer items-center gap-5 text-left lg:grid lg:grid-cols-3 lg:gap-4"
+                  className="flex min-w-0 flex-1 cursor-pointer items-center gap-4 text-left lg:grid lg:grid-cols-3 lg:gap-4"
                 >
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-blue-100 text-sm font-semibold text-brand-primary lg:justify-self-center">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-sm font-semibold text-brand-primary lg:justify-self-center">
                     {contact.name.charAt(0)}
                   </div>
 
@@ -154,7 +142,7 @@ function FindPeople({ onSelectContact }) {
                     className={
                       favorites.includes(contact.id)
                         ? "fill-yellow-400 text-yellow-400"
-                        : "text-gray-500"
+                        : "text-gray-300"
                     }
                   />
                 </button>
@@ -169,20 +157,6 @@ function FindPeople({ onSelectContact }) {
           </div>
         </div>
       </main>
-
-      {/* <nav className="mt-auto grid shrink-0 grid-cols-5 border-t border-gray-100 bg-white px-2 py-3 lg:hidden">
-        {navigation.map(({ name, icon: Icon }) => (
-          <div
-            key={name}
-            className={`flex flex-col items-center justify-center gap-1 ${
-              name === "Transfer" ? "text-brand-primary" : "text-gray-400"
-            }`}
-          >
-            <Icon size={19} />
-            <span className="text-[10px]">{name}</span>
-          </div>
-        ))}
-      </nav> */}
     </div>
   );
 }

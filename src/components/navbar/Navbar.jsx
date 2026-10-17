@@ -11,7 +11,8 @@ import {
   LuUser,
   LuX,
 } from "react-icons/lu";
-import { BsWallet2 } from "react-icons/bs";
+
+import iconWallet from "../../assets/wallet-icon.png";
 
 const MENU_ITEMS = [
   { to: "/dashboard", label: "Dashboard", Icon: LuLifeBuoy },
@@ -39,9 +40,10 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
     <header className="relative z-30 bg-brand-primary text-white shrink-0">
       <nav className="flex items-center justify-between px-5 py-4 lg:px-12">
         <div className="flex flex-row items-center gap-3">
-          <BsWallet2 className="text-white text-2xl" />
+          {/* <BsWallet2 className="text-white text-2xl" /> */}
+          <img src={iconWallet} width={40}/>
           <Link to="/" className="font-jakarta text-2xl font-semibold">
-            E-Wallet
+            Worker Wallet
           </Link>
         </div>
 

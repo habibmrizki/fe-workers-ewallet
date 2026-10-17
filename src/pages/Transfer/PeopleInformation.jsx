@@ -1,23 +1,19 @@
 import { useState } from "react";
 import {
-  FiGrid,
   FiSend,
-  FiClock,
-  FiPlusCircle,
-  FiUser,
   FiStar,
   FiX,
 } from "react-icons/fi";
 import { VscVerified } from "react-icons/vsc";
 import { CiMoneyCheck1 } from "react-icons/ci";
 
-const navigation = [
-  { name: "Dashboard", icon: FiGrid },
-  { name: "Transfer", icon: FiSend },
-  { name: "History", icon: FiClock },
-  { name: "Top Up", icon: FiPlusCircle },
-  { name: "Profile", icon: FiUser },
-];
+// const navigation = [
+//   { name: "Dashboard", icon: FiGrid },
+//   { name: "Transfer", icon: FiSend },
+//   { name: "History", icon: FiClock },
+//   { name: "Top Up", icon: FiPlusCircle },
+//   { name: "Profile", icon: FiUser },
+// ];
 
 const contacts = [
   {
@@ -101,12 +97,12 @@ function PeopleInformation({
         Transfer
       </header>
 
-      <main className="min-h-0 flex-1 overflow-y-auto bg-white p-4 lg:overflow-visible lg:p-6">
+      <main className="min-h-0 flex-1 overflow-y-auto bg-white p-6 lg:overflow-visible lg:px-10 lg:py-7">
         {/*STEPPER DESKTOP */}
         <div className="mb-6 hidden lg:block">
           <div className="flex items-center gap-3">
-            <FiSend size={20} className="text-brand-primary" />
-            <h2 className="text-base font-semibold text-brand-secondary">
+            <FiSend size={20} className="text-blue-600" />
+            <h2 className="text-lg font-bold font-montserrat text-brand-secondary">
               Transfer Money
             </h2>
           </div>
@@ -250,7 +246,7 @@ function PeopleInformation({
         </div>
       </main>
 
-      <nav className="mt-auto grid shrink-0 grid-cols-5 border-t border-gray-100 bg-white px-2 py-3 lg:hidden">
+      {/* <nav className="mt-auto grid shrink-0 grid-cols-5 border-t border-gray-100 bg-white px-2 py-3 lg:hidden">
         {navigation.map(({ name, icon: Icon }) => (
           <div
             key={name}
@@ -262,7 +258,7 @@ function PeopleInformation({
             <span className="text-[10px]">{name}</span>
           </div>
         ))}
-      </nav>
+      </nav> */}
 
       {/* Pin Modal */}
       {modalPin && (
