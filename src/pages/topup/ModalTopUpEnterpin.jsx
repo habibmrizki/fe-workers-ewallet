@@ -18,7 +18,7 @@ function ModalTopUpEnterpin({ setShowModal = () => {} }) {
     }
 
     setShowModal(false);
-    navigate("/history");
+    navigate("/top-up/summary");
   };
 
   const handleChange = (e, index) => {
@@ -113,7 +113,7 @@ function ModalTopUpEnterpin({ setShowModal = () => {} }) {
 
           <p className="text-center text-sm text-gray-500 text-[17px]">
             Forgot Your Pin ?{" "}
-            <Link to={"/profile/change-pin"}>
+            <Link to={"/auth/enter-pin"}>
               <span className="cursor-pointer text-blue-700">Reset</span>
             </Link>
           </p>
