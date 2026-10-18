@@ -130,15 +130,13 @@ export const resetPassword = createAsyncThunk(
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ token, "new_password": password }),
+        body: JSON.stringify({ token, new_password: password }),
       });
 
       const data = await response.json().catch(() => null);
 
       if (!response.ok) {
-        return rejectWithValue(
-          data?.message || "Gagal memperbarui password",
-        );
+        return rejectWithValue(data?.message || "Gagal memperbarui password");
       }
 
       return data;
