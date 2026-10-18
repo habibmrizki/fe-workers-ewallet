@@ -26,7 +26,7 @@ const MENU_ITEMS = [
   { to: "/profile", label: "Profile", Icon: LuUser },
 ];
 
-const Navbar = ({ isMenuOpen, setIsMenuOpen, profile }) => {
+const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
