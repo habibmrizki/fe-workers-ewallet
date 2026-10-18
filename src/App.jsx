@@ -13,6 +13,8 @@ import EditProfile from "./pages/EditProfile";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ForgotPass from "./pages/auth/ForgotPass";
+import PrivateRoute from "./router/PrivateRouter";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -32,8 +34,15 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingLayout />}>
           <Route index element={<LandingPage />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
-        <Route element={<MainLayout />}>
+        <Route
+          element={
+            <PrivateRoute>
+              <MainLayout />
+            </PrivateRoute>
+          }
+        >
           <Route path="dashboard" element={<Dashbord />} />
           <Route path="transfer">
             <Route index element={<FindPeople />} />

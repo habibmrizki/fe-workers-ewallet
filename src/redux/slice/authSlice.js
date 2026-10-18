@@ -163,95 +163,107 @@ const authSlice = createSlice({
       state.success = false;
       state.error = null;
     },
+    clearAuth: (state) => {
+      state.token = null;
+      state.user = null;
+      state.loading = false;
+      state.success = false;
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder
-      // Register
-      .addCase(registerUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-        state.success = false;
+      .addAsyncThunk(registerUser, {
+        pending: (state) => {
+          state.loading = true;
+          state.error = null;
+          state.success = false;
+        },
+        fulfilled: (state) => {
+          state.loading = false;
+          state.success = true;
+          state.error = null;
+        },
+        rejected: (state, action) => {
+          state.loading = false;
+          state.success = false;
+          state.error = action.payload || "Terjadi kesalahan";
+        },
       })
-      .addCase(registerUser.fulfilled, (state) => {
-        state.loading = false;
-        state.success = true;
-        state.error = null;
+      .addAsyncThunk(loginUser, {
+        pending: (state) => {
+          state.loading = true;
+          state.error = null;
+          state.success = false;
+        },
+        fulfilled: (state, action) => {
+          state.loading = false;
+          state.success = true;
+          state.token = action.payload.token;
+          state.user = action.payload.user;
+          state.error = null;
+        },
+        rejected: (state, action) => {
+          state.loading = false;
+          state.success = false;
+          state.error = action.payload || "Login gagal";
+        },
       })
-      .addCase(registerUser.rejected, (state, action) => {
-        state.loading = false;
-        state.success = false;
-        state.error = action.payload || "Terjadi kesalahan";
+      .addAsyncThunk(logoutUser, {
+        pending: (state) => {
+          state.loading = true;
+          state.error = null;
+          state.success = false;
+        },
+        fulfilled: (state) => {
+          state.loading = false;
+          state.success = true;
+          state.token = null;
+          state.user = null;
+          state.error = null;
+        },
+        rejected: (state, action) => {
+          state.loading = false;
+          state.success = false;
+          state.error = action.payload || "Logout gagal";
+        },
       })
-      // Login
-      .addCase(loginUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-        state.success = false;
+      .addAsyncThunk(sendResetLink, {
+        pending: (state) => {
+          state.loading = true;
+          state.error = null;
+          state.success = false;
+        },
+        fulfilled: (state) => {
+          state.loading = false;
+          state.success = true;
+          state.error = null;
+        },
+        rejected: (state, action) => {
+          state.loading = false;
+          state.success = false;
+          state.error = action.payload || "Reset Password Gagal";
+        },
       })
-      .addCase(loginUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.success = true;
-        state.token = action.payload.token;
-        state.user = action.payload.user;
-        state.error = null;
-      })
-      .addCase(loginUser.rejected, (state, action) => {
-        state.loading = false;
-        state.success = false;
-        state.error = action.payload || "Login gagal";
-      })
-      // Logout
-      .addCase(logoutUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-        state.success = false;
-      })
-      .addCase(logoutUser.fulfilled, (state) => {
-        state.loading = false;
-        state.success = true;
-        state.token = null;
-        state.user = null;
-        state.error = null;
-      })
-      .addCase(logoutUser.rejected, (state, action) => {
-        state.loading = false;
-        state.success = false;
-        state.error = action.payload || "Logout gagal";
-      })
-      // Forgot Password
-      .addCase(sendResetLink.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-        state.success = false;
-      })
-      .addCase(sendResetLink.fulfilled, (state) => {
-        state.loading = false;
-        state.success = true;
-        state.error = null;
-      })
-      .addCase(sendResetLink.rejected, (state, action) => {
-        state.loading = false;
-        state.success = false;
-        state.error = action.payload || "Reset Password Gagal";
-      })
-      // Reset Password
-      .addCase(resetPassword.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-        state.success = false;
-      })
-      .addCase(resetPassword.fulfilled, (state) => {
-        state.loading = false;
-        state.success = true;
-        state.error = null;
-      })
-      .addCase(resetPassword.rejected, (state, action) => {
-        state.loading = false;
-        state.success = false;
-        state.error = action.payload || "Reset password gagal";
+      .addAsyncThunk(resetPassword, {
+        pending: (state) => {
+          state.loading = true;
+          state.error = null;
+          state.success = false;
+        },
+        fulfilled: (state) => {
+          state.loading = false;
+          state.success = true;
+          state.error = null;
+        },
+        rejected: (state, action) => {
+          state.loading = false;
+          state.success = false;
+          state.error = action.payload || "Reset password gagal";
+        },
       });
   },
 });
 
-export const { resetAuthState } = authSlice.actions;
+export const { resetAuthState, clearAuth } = authSlice.actions;
 export default authSlice.reducer;

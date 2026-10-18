@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import { FaRegUser, FaIdCard } from "react-icons/fa";
 import {
@@ -15,6 +16,7 @@ import {
 import iconWallet from "../../assets/wallet-icon.png";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../redux/slice/authSlice";
+import { getProfile } from "../../redux/slice/userSlice";
 
 const MENU_ITEMS = [
   { to: "/dashboard", label: "Dashboard", Icon: LuLifeBuoy },
@@ -29,6 +31,11 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen, profile }) => {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
+  const { profile } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (user && !profile) dispatch(getProfile());
+  }, [dispatch, profile, user]);
 
   const displayName = profile?.fullName || user?.fullname || "User";
   const apiBaseUrl = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
