@@ -16,7 +16,7 @@ import {
 import iconWallet from "../../assets/wallet-icon.png";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../redux/slice/authSlice";
-import { getProfile } from "../../redux/slice/userSlice";
+import { getProfile, logout } from "../../redux/slice/userSlice";
 
 const MENU_ITEMS = [
   { to: "/dashboard", label: "Dashboard", Icon: LuLifeBuoy },
@@ -31,11 +31,12 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
-  const { profile } = useSelector((state) => state.user);
+  const profile = useSelector((state) => state.user?.profile);
 
   useEffect(() => {
-    if (user && !profile) dispatch(getProfile());
-  }, [dispatch, profile, user]);
+    dispatch(getProfile())
+  }, [dispatch])
+  
 
   const displayName = profile?.fullName || user?.fullname || "User";
   const apiBaseUrl = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
@@ -48,6 +49,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
 
   const handleLogout = () => {
     dispatch(logoutUser());
+    dispatch(logout())
     closeMenu();
     navigate("/auth");
   };

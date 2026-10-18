@@ -162,10 +162,8 @@ const userSlice = createSlice({
     securityError: null,
   },
   reducers: {
-    clearProfile: (state) => {
+    logout: (state) => {
       state.profile = null;
-      state.error = null;
-      state.loading = false;
     },
   },
   extraReducers: (builder) => {
@@ -257,5 +255,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearProfile } = userSlice.actions;
+export const { logout } = userSlice.actions;
 export default userSlice.reducer;
