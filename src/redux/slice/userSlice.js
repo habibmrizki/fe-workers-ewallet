@@ -139,7 +139,11 @@ const userSlice = createSlice({
     securityLoading: false,
     securityError: null,
   },
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.profile = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getProfile.pending, (state) => {
@@ -205,4 +209,5 @@ const userSlice = createSlice({
   },
 });
 
+export const { logout } = userSlice.actions;
 export default userSlice.reducer;
