@@ -11,6 +11,7 @@ import {
 } from "redux-persist";
 import authReducer from "./slice/authSlice";
 import userReducer from "./slice/userSlice";
+import topUpReducer from "./slice/transactionSlice";
 
 const storage = {
   getItem: (key) => Promise.resolve(window.localStorage.getItem(key)),
@@ -22,6 +23,7 @@ const storage = {
 const rootReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
+  topUp: topUpReducer,
 });
 
 const persistConfig = {
