@@ -11,7 +11,11 @@ import {
 } from "react-icons/lu";
 import ChangePinModal from "../modals/ChangePinModal";
 import ChangePasswordModal from "../modals/ChangePasswordModal";
-import { getProfile, updateProfile } from "../redux/slice/userSlice";
+import {
+  deleteAvatar,
+  getProfile,
+  updateProfile,
+} from "../redux/slice/userSlice";
 
 function EditProfile() {
   const dispatch = useDispatch();
@@ -45,19 +49,22 @@ function EditProfile() {
     }));
   };
 
-  const handleDeleteAvatar = () => {
+  const handleDeleteAvatar = async () => {
     if (avatarFile) {
       setAvatarFile(null);
       setPreviewAvatar(null);
-      const input = document.getElementById("avatar_url");
+      const input = document.getElementById("avatar");
       if (input) input.value = "";
       return;
     }
 
     if (profile?.avatar) {
-      toast.info(
-        "Backend belum menyediakan endpoint untuk menghapus avatar tersimpan.",
-      );
+      try {
+        await dispatch(deleteAvatar()).unwrap();
+        toast.success("Avatar berhasil dihapus.");
+      } catch (requestError) {
+        toast.error(requestError || "Gagal menghapus avatar.");
+      }
     }
   };
 
