@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import { FaRegUser, FaIdCard } from "react-icons/fa";
 import {
@@ -15,7 +16,6 @@ import {
 import iconWallet from "../../assets/wallet-icon.png";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../redux/slice/authSlice";
-import { useEffect } from "react";
 import { getProfile, logout } from "../../redux/slice/userSlice";
 
 const MENU_ITEMS = [
@@ -65,7 +65,7 @@ const Navbar = ({ isMenuOpen, setIsMenuOpen }) => {
     <header className="relative z-30 bg-brand-primary text-white shrink-0">
       <nav className="flex items-center justify-between px-5 py-4 lg:px-12">
         <div className="flex flex-row items-center gap-3">
-          <img src={iconWallet} width={40}/>
+          <img src={iconWallet} width={40} />
           <Link to="/" className="font-jakarta text-2xl font-semibold">
             Worker Wallet
           </Link>

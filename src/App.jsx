@@ -9,10 +9,14 @@ import FindPeople from "./pages/Transfer/TransferPage";
 import PeopleInformation from "./pages/Transfer/PeopleInformation";
 import History from "./pages/history/History";
 import TopUp from "./pages/topup/Topup";
+import TopUpSummary from "./pages/topup/TopUpSummary";
 import EditProfile from "./pages/EditProfile";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ForgotPass from "./pages/auth/ForgotPass";
+import EnterPin from "./pages/auth/EnterPin";
+import PrivateRoute from "./router/PrivateRouter";
+import NotFound from "./pages/notfound/NotFound";
 
 function App() {
   return (
@@ -32,21 +36,32 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingLayout />}>
           <Route index element={<LandingPage />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
-        <Route element={<MainLayout />}>
+        <Route
+          element={
+            <PrivateRoute>
+              <MainLayout />
+            </PrivateRoute>
+          }
+        >
           <Route path="dashboard" element={<Dashbord />} />
           <Route path="transfer">
             <Route index element={<FindPeople />} />
             <Route path="info" element={<PeopleInformation />} />
           </Route>
           <Route path="history" element={<History />} />
-          <Route path="top-up" element={<TopUp />} />
+          <Route path="top-up">
+            <Route index element={<TopUp />}/>
+            <Route path="summary" element={<TopUpSummary/>}/>
+          </Route>
           <Route path="profile" element={<EditProfile />} />
         </Route>
         <Route path="auth">
           <Route index element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="forgot-password" element={<ForgotPass />} />
+          <Route path="enter-pin" element={<EnterPin/>}/>
         </Route>
       </Routes>
     </>
