@@ -49,6 +49,28 @@ export const updateProfile = createAsyncThunk(
   },
 );
 
+export const deleteAvatar = createAsyncThunk(
+  "user/deleteAvatar",
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().auth.token;
+      const response = await fetch(`${getBaseUrl()}/user/avatar`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        return rejectWithValue(data?.message || "Gagal menghapus avatar");
+      }
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message || "Gagal menghapus avatar");
+    }
+  },
+);
+
 export const changePassword = createAsyncThunk(
   "user/changePassword",
   async ({ oldPassword, newPassword }, { getState, rejectWithValue }) => {
@@ -139,70 +161,101 @@ const userSlice = createSlice({
     securityLoading: false,
     securityError: null,
   },
-  reducers: {},
+  reducers: {
+    clearProfile: (state) => {
+      state.profile = null;
+      state.error = null;
+      state.loading = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(getProfile.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+      .addAsyncThunk(getProfile, {
+        pending: (state) => {
+          state.loading = true;
+          state.error = null;
+        },
+        fulfilled: (state, action) => {
+          state.loading = false;
+          state.profile = action.payload;
+        },
+        rejected: (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        },
       })
-      .addCase(getProfile.fulfilled, (state, action) => {
-        state.loading = false;
-        state.profile = action.payload;
+      .addAsyncThunk(updateProfile, {
+        pending: (state) => {
+          state.loading = true;
+          state.error = null;
+        },
+        fulfilled: (state) => {
+          state.loading = false;
+          state.error = null;
+        },
+        rejected: (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        },
       })
-      .addCase(getProfile.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+      .addAsyncThunk(deleteAvatar, {
+        pending: (state) => {
+          state.loading = true;
+          state.error = null;
+        },
+        fulfilled: (state) => {
+          state.loading = false;
+          if (state.profile) state.profile.avatar = null;
+        },
+        rejected: (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        },
       })
-      .addCase(updateProfile.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+      .addAsyncThunk(changePassword, {
+        pending: (state) => {
+          state.securityLoading = true;
+          state.securityError = null;
+        },
+        fulfilled: (state) => {
+          state.securityLoading = false;
+          state.securityError = null;
+        },
+        rejected: (state, action) => {
+          state.securityLoading = false;
+          state.securityError = action.payload;
+        },
       })
-      .addCase(updateProfile.fulfilled, (state) => {
-        state.loading = false;
-        state.error = null;
+      .addAsyncThunk(changePin, {
+        pending: (state) => {
+          state.securityLoading = true;
+          state.securityError = null;
+        },
+        fulfilled: (state) => {
+          state.securityLoading = false;
+          state.securityError = null;
+        },
+        rejected: (state, action) => {
+          state.securityLoading = false;
+          state.securityError = action.payload;
+        },
       })
-      .addCase(updateProfile.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-      .addCase(changePassword.pending, (state) => {
-        state.securityLoading = true;
-        state.securityError = null;
-      })
-      .addCase(changePassword.fulfilled, (state) => {
-        state.securityLoading = false;
-        state.securityError = null;
-      })
-      .addCase(changePassword.rejected, (state, action) => {
-        state.securityLoading = false;
-        state.securityError = action.payload;
-      })
-      .addCase(changePin.pending, (state) => {
-        state.securityLoading = true;
-        state.securityError = null;
-      })
-      .addCase(changePin.fulfilled, (state) => {
-        state.securityLoading = false;
-        state.securityError = null;
-      })
-      .addCase(changePin.rejected, (state, action) => {
-        state.securityLoading = false;
-        state.securityError = action.payload;
-      })
-      .addCase(setPin.pending, (state) => {
-        state.securityLoading = true;
-        state.securityError = null;
-      })
-      .addCase(setPin.fulfilled, (state) => {
-        state.securityLoading = false;
-        state.securityError = null;
-      })
-      .addCase(setPin.rejected, (state, action) => {
-        state.securityLoading = false;
-        state.securityError = action.payload;
+      .addAsyncThunk(setPin, {
+        pending: (state) => {
+          state.securityLoading = true;
+          state.securityError = null;
+        },
+        fulfilled: (state) => {
+          state.securityLoading = false;
+          state.securityError = null;
+        },
+        rejected: (state, action) => {
+          state.securityLoading = false;
+          state.securityError = action.payload;
+        },
       });
   },
 });
 
+export const { clearProfile } = userSlice.actions;
 export default userSlice.reducer;
