@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router";
 import { CiSearch } from "react-icons/ci";
-import { RiDeleteBin6Line, RiHistoryFill } from "react-icons/ri";
+import { RiDeleteBin6Line, RiHistoryFill, RiWallet3Line } from "react-icons/ri";
 import { toast } from "react-toastify";
 import ModalHistory from "./ModalHistory";
 import { deleteHistory, fetchHistory } from "../../redux/slice/historySlice";
@@ -19,26 +19,13 @@ const getInitials = (name = "") =>
     .join("")
     .toUpperCase();
 
-const getAvatarUrl = (avatar) => {
-  if (!avatar) return "";
-  if (/^(https?:|data:)/i.test(avatar)) return avatar;
-  const clean = avatar.replace(/^\/+/, "").replace(/^public\//, "");
-  const staticLogos = [
-    "dana.svg",
-    "bca.svg",
-    "shopee-pay.png",
-    "gopay.svg",
-    "ovo.svg",
-    "bri.svg",
-    "bni.svg",
-    "mandiri.svg",
-  ];
-  if (staticLogos.some((logo) => clean.toLowerCase().endsWith(logo))) {
-    return `/${clean}`;
-  }
-  const baseUrl = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
-  return `${baseUrl}/image/${clean.replace(/^image\//, "")}`;
-};
+// const getAvatarUrl = (avatar) => {
+//   if (!avatar) return "";
+//   if (/^(https?:|data:)/i.test(avatar)) return avatar;
+//   const clean = avatar.replace(/^\/+/, "").replace(/^public\//, "");
+//   const baseUrl = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+//   return `${baseUrl}/images/${clean.replace(/^image\//, "")}`;
+// };
 
 const getTypeLabel = (type) => {
   switch (type) {
@@ -52,6 +39,8 @@ const getTypeLabel = (type) => {
       return type || "Transaksi";
   }
 };
+
+const isTopup = (type) => String(type).trim().toLowerCase() === "topup";
 
 const formatAmount = (amount) =>
   `Rp${Math.abs(Number(amount) || 0).toLocaleString("id-ID")}`;
@@ -178,7 +167,7 @@ function History() {
                 {transactions.map((transaction, index) => {
                   const amount = Number(transaction.amount) || 0;
                   const name = transaction.name || "Unknown";
-                  const avatarUrl = getAvatarUrl(transaction.avatar);
+                  // const avatarUrl = getAvatarUrl(transaction.avatar);
                   const rowColor = index % 2 === 0 ? "bg-gray-100" : "bg-white";
 
                   return (
@@ -194,23 +183,24 @@ function History() {
                       <td
                         className={`hidden w-24 rounded-l p-4 md:table-cell ${rowColor}`}
                       >
-                        {avatarUrl ? (
+                        {isTopup(transaction.type) ? (
+                          <div
+                            className="flex h-15 w-15 items-center justify-center rounded-xl bg-gray-200 text-gray-700"
+                            role="img"
+                            aria-label="Top up"
+                          >
+                            <RiWallet3Line
+                              className="h-8 w-8"
+                              aria-hidden="true"
+                            />
+                          </div>
+                        ) : transaction.avatar ? (
                           <img
-                            src={avatarUrl}
+                            src={`${import.meta.env.VITE_API_URL}/${transaction.avatar}`}
                             alt=""
                             className="h-15 w-15 rounded-xl object-cover"
                             onError={(event) => {
-                              const clean = transaction.avatar
-                                ?.replace(/^\/+/, "")
-                                .replace(/^public\//, "");
-                              if (
-                                clean &&
-                                !event.currentTarget.src.endsWith(`/${clean}`)
-                              ) {
-                                event.currentTarget.src = `/${clean}`;
-                              } else {
-                                event.currentTarget.hidden = true;
-                              }
+                              event.currentTarget.hidden = true;
                             }}
                           />
                         ) : (
