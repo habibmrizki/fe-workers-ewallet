@@ -1,3 +1,5 @@
+import { RiDeleteBin6Line } from "react-icons/ri";
+
 const getTypeLabel = (type) => {
   switch (type) {
     case "transfer_out":
@@ -11,14 +13,30 @@ const getTypeLabel = (type) => {
   }
 };
 
-function ModalHistory({ customer, onClose }) {
+function ModalHistory({ customer, onClose, onDelete }) {
   const amount = Number(customer.amount) || 0;
-  const baseUrl = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
-  const avatarUrl = customer.avatar
-    ? /^(https?:|data:)/i.test(customer.avatar)
-      ? customer.avatar
-      : `${baseUrl}/image/${customer.avatar.replace(/^\/+/, "")}`
-    : "";
+  const getAvatarUrl = (avatar) => {
+    if (!avatar) return "";
+    if (/^(https?:|data:)/i.test(avatar)) return avatar;
+    const clean = avatar.replace(/^\/+/, "").replace(/^public\//, "");
+    const staticLogos = [
+      "dana.svg",
+      "bca.svg",
+      "shopee-pay.png",
+      "gopay.svg",
+      "ovo.svg",
+      "bri.svg",
+      "bni.svg",
+      "mandiri.svg",
+    ];
+    if (staticLogos.some((logo) => clean.toLowerCase().endsWith(logo))) {
+      return `/${clean}`;
+    }
+    const baseUrl = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+    return `${baseUrl}/image/${clean.replace(/^image\//, "")}`;
+  };
+
+  const avatarUrl = getAvatarUrl(customer.avatar);
 
   return (
     <>
@@ -30,6 +48,16 @@ function ModalHistory({ customer, onClose }) {
             src={avatarUrl}
             alt={`Avatar ${customer.name || "kontak"}`}
             className="mt-5 h-15 w-15 rounded-xl object-cover"
+            onError={(event) => {
+              const clean = customer.avatar
+                ?.replace(/^\/+/, "")
+                .replace(/^public\//, "");
+              if (clean && !event.currentTarget.src.endsWith(`/${clean}`)) {
+                event.currentTarget.src = `/${clean}`;
+              } else {
+                event.currentTarget.hidden = true;
+              }
+            }}
           />
         )}
       </header>
@@ -59,7 +87,15 @@ function ModalHistory({ customer, onClose }) {
         </div>
       </div>
 
-      <div className="px-5">
+      <div className="flex flex-col gap-3 px-5">
+        <button
+          type="button"
+          className="flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-red-600 font-medium text-red-600 hover:bg-red-50"
+          onClick={onDelete}
+        >
+          <RiDeleteBin6Line aria-hidden="true" />
+          Hapus dari riwayat
+        </button>
         <button
           type="button"
           className="h-10 w-full cursor-pointer rounded-lg bg-blue-600 font-medium text-white"
