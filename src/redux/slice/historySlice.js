@@ -17,7 +17,6 @@ export const fetchHistory = createAsyncThunk(
         limit: String(limit),
         search,
       });
-      0;
       const response = await fetch(`${getBaseUrl()}/history?${params}`, {
         headers,
       });
@@ -46,12 +45,41 @@ export const fetchHistory = createAsyncThunk(
   },
 );
 
+export const deleteHistory = createAsyncThunk(
+  "history/deleteHistory",
+  async (transactionId, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().auth.token;
+      const response = await fetch(
+        `${getBaseUrl()}/history/${encodeURIComponent(transactionId)}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+      const result = await response.json().catch(() => null);
+
+      if (!response.ok || !result?.success) {
+        return rejectWithValue(
+          result?.message || "Gagal menghapus riwayat transaksi",
+        );
+      }
+      return transactionId;
+    } catch (error) {
+      return rejectWithValue(
+        error.message || "Gagal terhubung ke server backend",
+      );
+    }
+  },
+);
+
 const historySlice = createSlice({
   name: "history",
   initialState: {
     transactions: [],
     meta: { current_page: 1, total_page: 0, total_data: 0 },
     loading: false,
+    deleting: false,
     error: null,
   },
   reducers: {},
@@ -69,6 +97,20 @@ const historySlice = createSlice({
       .addCase(fetchHistory.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Gagal mengambil riwayat transaksi";
+      })
+      .addCase(deleteHistory.pending, (state) => {
+        state.deleting = true;
+        state.error = null;
+      })
+      .addCase(deleteHistory.fulfilled, (state, action) => {
+        state.deleting = false;
+        state.transactions = state.transactions.filter(
+          (transaction) => transaction.id !== action.payload,
+        );
+      })
+      .addCase(deleteHistory.rejected, (state, action) => {
+        state.deleting = false;
+        state.error = action.payload || "Gagal menghapus riwayat transaksi";
       });
   },
 });
