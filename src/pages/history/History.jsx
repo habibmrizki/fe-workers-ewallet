@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router";
 import { CiSearch } from "react-icons/ci";
-import { RiHistoryFill } from "react-icons/ri";
+import { RiDeleteBin6Line, RiHistoryFill } from "react-icons/ri";
+import { toast } from "react-toastify";
 import ModalHistory from "./ModalHistory";
-import { fetchHistory } from "../../redux/slice/historySlice";
+import { deleteHistory, fetchHistory } from "../../redux/slice/historySlice";
 
 const PAGE_SIZE = 7;
 
@@ -21,8 +22,22 @@ const getInitials = (name = "") =>
 const getAvatarUrl = (avatar) => {
   if (!avatar) return "";
   if (/^(https?:|data:)/i.test(avatar)) return avatar;
+  const clean = avatar.replace(/^\/+/, "").replace(/^public\//, "");
+  const staticLogos = [
+    "dana.svg",
+    "bca.svg",
+    "shopee-pay.png",
+    "gopay.svg",
+    "ovo.svg",
+    "bri.svg",
+    "bni.svg",
+    "mandiri.svg",
+  ];
+  if (staticLogos.some((logo) => clean.toLowerCase().endsWith(logo))) {
+    return `/${clean}`;
+  }
   const baseUrl = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
-  return `${baseUrl}/image/${avatar.replace(/^\/+/, "")}`;
+  return `${baseUrl}/image/${clean.replace(/^image\//, "")}`;
 };
 
 const getTypeLabel = (type) => {
@@ -48,7 +63,8 @@ function History() {
     searchParams.get("search") || "",
   );
   const [selectedTransaction, setSelectedTransaction] = useState(null);
-  const { transactions, meta, loading, error } = useSelector(
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const { transactions, meta, loading, deleting, error } = useSelector(
     (state) => state.history,
   );
 
@@ -84,6 +100,28 @@ function History() {
     else params.delete("search");
     params.delete("page");
     setSearchParams(params);
+  };
+
+  const handleConfirmDelete = async () => {
+    const idToDelete = deleteTarget?.id || deleteTarget?.ID;
+    if (!idToDelete) {
+      toast.error("ID transaksi tidak ditemukan");
+      return;
+    }
+
+    try {
+      await dispatch(deleteHistory(idToDelete)).unwrap();
+      toast.success("Riwayat transaksi berhasil dihapus");
+      setDeleteTarget(null);
+      setSelectedTransaction(null);
+      if (transactions.length === 1 && currentPage > 1) {
+        updatePage(currentPage - 1);
+      } else {
+        dispatch(fetchHistory({ page, limit: PAGE_SIZE, search }));
+      }
+    } catch (deleteError) {
+      toast.error(deleteError || "Gagal menghapus riwayat transaksi");
+    }
   };
 
   return (
@@ -145,7 +183,7 @@ function History() {
 
                   return (
                     <tr
-                      key={`${name}-${transaction.type}-${amount}-${index}`}
+                      key={transaction.id || index}
                       className="cursor-pointer md:cursor-default"
                       onClick={() => {
                         if (window.innerWidth < 768) {
@@ -162,7 +200,17 @@ function History() {
                             alt=""
                             className="h-15 w-15 rounded-xl object-cover"
                             onError={(event) => {
-                              event.currentTarget.hidden = true;
+                              const clean = transaction.avatar
+                                ?.replace(/^\/+/, "")
+                                .replace(/^public\//, "");
+                              if (
+                                clean &&
+                                !event.currentTarget.src.endsWith(`/${clean}`)
+                              ) {
+                                event.currentTarget.src = `/${clean}`;
+                              } else {
+                                event.currentTarget.hidden = true;
+                              }
                             }}
                           />
                         ) : (
@@ -187,9 +235,7 @@ function History() {
                       >
                         {transaction.phone || getTypeLabel(transaction.type)}
                       </td>
-                      <td
-                        className={`rounded-r p-4 text-right md:rounded-none md:text-left ${rowColor}`}
-                      >
+                      <td className={`p-4 text-right md:text-left ${rowColor}`}>
                         <span
                           className={
                             amount < 0
@@ -200,6 +246,22 @@ function History() {
                           {amount < 0 ? "-" : "+"}
                           {formatAmount(amount)}
                         </span>
+                      </td>
+                      <td
+                        className={`hidden w-16 rounded-r p-4 text-right md:table-cell ${rowColor}`}
+                      >
+                        <button
+                          type="button"
+                          aria-label={`Hapus riwayat transaksi ${name}`}
+                          className="cursor-pointer text-brand-red hover:text-red-700 disabled:cursor-not-allowed disabled:opacity-50"
+                          disabled={deleting}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            setDeleteTarget(transaction);
+                          }}
+                        >
+                          <RiDeleteBin6Line aria-hidden="true" />
+                        </button>
                       </td>
                     </tr>
                   );
@@ -266,8 +328,49 @@ function History() {
             <ModalHistory
               customer={selectedTransaction}
               onClose={() => setSelectedTransaction(null)}
+              onDelete={() => setDeleteTarget(selectedTransaction)}
             />
           </div>
+        </div>
+      )}
+
+      {deleteTarget && (
+        <div
+          className="fixed inset-0 z-60 flex items-center justify-center bg-black/50 p-5"
+          onClick={() => !deleting && setDeleteTarget(null)}
+        >
+          <section
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="delete-history-title"
+            className="w-full max-w-sm rounded-xl bg-white p-6"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <h2
+              id="delete-history-title"
+              className="mb-5 text-base font-semibold"
+            >
+              Hapus transaksi ini dari riwayat Anda?
+            </h2>
+            <div className="flex justify-end gap-3">
+              <button
+                type="button"
+                className="cursor-pointer rounded bg-gray-200 px-5 py-2 text-gray-800 hover:bg-gray-300 disabled:opacity-50"
+                disabled={deleting}
+                onClick={() => setDeleteTarget(null)}
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                className="cursor-pointer rounded bg-red-600 px-5 py-2 text-white hover:bg-red-700 disabled:opacity-50"
+                disabled={deleting}
+                onClick={handleConfirmDelete}
+              >
+                {deleting ? "Menghapus..." : "Hapus"}
+              </button>
+            </div>
+          </section>
         </div>
       )}
     </main>
