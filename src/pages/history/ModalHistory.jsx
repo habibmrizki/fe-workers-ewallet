@@ -1,3 +1,4 @@
+// import { useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 const getTypeLabel = (type) => {
@@ -13,52 +14,51 @@ const getTypeLabel = (type) => {
   }
 };
 
-function ModalHistory({ customer, onClose, onDelete }) {
-  const amount = Number(customer.amount) || 0;
-  const getAvatarUrl = (avatar) => {
-    if (!avatar) return "";
-    if (/^(https?:|data:)/i.test(avatar)) return avatar;
-    const clean = avatar.replace(/^\/+/, "").replace(/^public\//, "");
-    const staticLogos = [
-      "dana.svg",
-      "bca.svg",
-      "shopee-pay.png",
-      "gopay.svg",
-      "ovo.svg",
-      "bri.svg",
-      "bni.svg",
-      "mandiri.svg",
-    ];
-    if (staticLogos.some((logo) => clean.toLowerCase().endsWith(logo))) {
-      return `/${clean}`;
-    }
-    const baseUrl = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
-    return `${baseUrl}/image/${clean.replace(/^image\//, "")}`;
-  };
+// const isTopup = (type) => String(type).trim().toLowerCase() === "topup";
 
-  const avatarUrl = getAvatarUrl(customer.avatar);
+const getInitials = (name = "") =>
+  name
+    .trim()
+    .split(/\s+/)
+    .map((word) => word[0])
+    .filter(Boolean)
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
+function ModalHistory({ customer, onClose, onDelete }) {
+  // const [avatarFailed, setAvatarFailed] = useState(false);
+  const amount = Number(customer.amount) || 0;
+  // const getAvatarUrl = (avatar) => {
+    //   if (!avatar) return "";
+    //   if (/^(https?:|data:)/i.test(avatar)) return avatar;
+    //   const clean = avatar.replace(/^\/+/, "").replace(/^public\//, "");
+    //   const baseUrl = (import.meta.env.VITE_API_URL || "").replace(/\/+$/, "");
+    //   return `${baseUrl}/image/${clean.replace(/^image\//, "")}`;
+  // };
+
+  // const avatarUrl = getAvatarUrl(customer.avatar);
 
   return (
     <>
       <header className="px-5">
         <h2 className="text-gray-500">DETAIL TRANSAKSI</h2>
         <hr className="border-t border-gray-300" />
-        {avatarUrl && (
+        {customer.avatar  ? (
           <img
-            src={avatarUrl}
+            src={`http://localhost:5173${customer.avatar}`}
             alt={`Avatar ${customer.name || "kontak"}`}
-            className="mt-5 h-15 w-15 rounded-xl object-cover"
-            onError={(event) => {
-              const clean = customer.avatar
-                ?.replace(/^\/+/, "")
-                .replace(/^public\//, "");
-              if (clean && !event.currentTarget.src.endsWith(`/${clean}`)) {
-                event.currentTarget.src = `/${clean}`;
-              } else {
-                event.currentTarget.hidden = true;
-              }
-            }}
+            className="mt-5 h-15 w-15 rounded-xl object-contain"
+            // onError={() => setAvatarFailed(true)}
           />
+        ) : (
+          <div
+            className="mt-5 flex h-15 w-15 items-center justify-center rounded-xl bg-gray-200 font-semibold text-gray-700"
+            role="img"
+            aria-label={`Avatar ${customer.name || "kontak"}`}
+          >
+            {getInitials(customer.name || "Unknown")}
+          </div>
         )}
       </header>
 
